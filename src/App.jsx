@@ -1,98 +1,58 @@
 import { useState } from "react";
 
-const SHEETS_URL="https://script.google.com/macros/s/AKfycbxRrfWAoCngO2I7iZVtcNFtTDKc-IIQqHyms4KF-FSY61ldKozHsdeyehO5JUj80SDf/exec";
-const WA="5535999894181";
-const KB_URL="https://docs.google.com/document/d/e/2PACX-1vRHVa4H74S_TYScxNxSOu4zdC5_5UY7aGNmx6bAEuDSTIt-o6Cl4tVtnbxGlfEOmuS7AW1RfU5uqEYf/pub";
-const INSTA="https://instagram.com/laconsultancy";
-const EMAIL="laconsultancybr@gmail.com";
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxRrfWAoCngO2I7iZVtcNFtTDKc-IIQqHyms4KF-FSY61ldKozHsdeyehO5JUj80SDf/exec";
+const WA        = "5535999894181";
+const KB_URL    = "https://docs.google.com/document/d/e/2PACX-1vRHVa4H74S_TYScxNxSOu4zdC5_5UY7aGNmx6bAEuDSTIt-o6Cl4tVtnbxGlfEOmuS7AW1RfU5uqEYf/pub";
+const INSTA     = "https://instagram.com/laconsultancybr";
+const EMAIL_CTT = "laconsultancybr@gmail.com";
 
-const BENCH_NOTE=`As referências usadas neste diagnóstico foram desenvolvidas pela LA Consultancy em parceria com o CIAF, baseadas na metodologia Winning by Design e aperfeiçoadas para a realidade do varejista e empresário brasileiro. Não existe certo ou errado — o objetivo é te dar um ponto de partida honesto para enxergar onde estão as maiores oportunidades no seu negócio.`;
+const BENCH_NOTE = `As referências usadas neste diagnóstico foram desenvolvidas pela LA Consultancy em parceria com o CIAF, baseadas na metodologia Winning by Design e aperfeiçoadas para a realidade do varejista e empresário brasileiro. Não existe certo ou errado — o objetivo é te dar um ponto de partida honesto para enxergar onde estão as maiores oportunidades no seu negócio.`;
 
-const FOMO={
-  leads:[
-    "Negócios que não medem quem chega até eles perdem em média 40% das oportunidades sem saber",
-    "Saber de onde vêm seus melhores clientes pode reduzir seu custo de divulgação pela metade",
-    "A maioria dos donos de negócio chuta esse número — e chuta errado",
-  ],
-  mql:[
-    "Você provavelmente está gastando energia com pessoas que nunca vão comprar",
-    "Qualificar melhor pode dobrar sua taxa de fechamento sem aumentar o time",
-    "Negócios que definem o perfil ideal do cliente vendem mais com menos esforço",
-  ],
-  sql:[
-    "Demora no retorno é a principal razão de perda de venda no varejo brasileiro",
-    "Um processo simples de follow-up pode recuperar 20-30% das vendas perdidas",
-    "Quem responde primeiro tende a vender mais — independente do preço",
-  ],
-  opp:[
-    "A maioria dos negócios não sabe quantos orçamentos abertos têm agora — e isso custa caro",
-    "Propostas sem acompanhamento são dinheiro na mesa que ninguém vai buscar",
-    "Um pipeline organizado prevê o faturamento do próximo mês antes que ele aconteça",
-  ],
-  won:[
-    "Conquistar o cliente errado custa mais do que não conquistar nenhum",
-    "Clientes mal escolhidos pedem desconto, reclamam mais e saem cedo",
-    "Os melhores negócios crescem sendo mais seletivos, não menos",
-  ],
-  onb:[
-    "A maioria dos cancelamentos começa nos primeiros 30 dias — silenciosamente",
-    "Cliente que não começa bem não fica. E quase nunca avisa por quê",
-    "Um bom processo de boas-vindas pode reduzir o abandono em até 3x",
-  ],
-  ado:[
-    "Cliente que não usa o que comprou está prestes a cancelar — mesmo sem falar nada",
-    "Engajamento ativo é o maior sinal de que a renovação vai acontecer",
-    "Negócios que acompanham o uso retêm até 2x mais clientes",
-  ],
-  ret:[
-    "Perder 1 cliente por mês parece pouco. Em 1 ano você perdeu parte relevante da base",
-    "Reter é até 7x mais barato do que conquistar um cliente novo",
-    "O balde furado: quanto mais você coloca, mais vaza pelo buraco do churn",
-  ],
-  exp:[
-    "Seu maior potencial de crescimento está nos clientes que você já tem",
-    "Vender mais para quem já confia em você custa até 5x menos do que conquistar alguém novo",
-    "Negócios que exploram expansão crescem mesmo em meses ruins de aquisição",
-  ],
-  adv:[
-    "Indicação é o canal mais barato e mais ignorado do varejo brasileiro",
-    "Clientes que indicam têm ticket médio 16% maior que clientes captados por anúncio",
-    "Se seus clientes não falam de você, alguém está falhando em criar momentos memoráveis",
-  ],
+const FOMO = {
+  leads:["Negócios que não medem quem chega até eles perdem em média 40% das oportunidades sem saber","Saber de onde vêm seus melhores clientes pode reduzir seu custo de divulgação pela metade","A maioria dos donos de negócio chuta esse número — e chuta errado"],
+  mql:["Você provavelmente está gastando energia com pessoas que nunca vão comprar","Qualificar melhor pode dobrar sua taxa de fechamento sem aumentar o time","Negócios que definem o perfil ideal do cliente vendem mais com menos esforço"],
+  sql:["Demora no retorno é a principal razão de perda de venda no varejo brasileiro","Um processo simples de follow-up pode recuperar 20-30% das vendas perdidas","Quem responde primeiro tende a vender mais — independente do preço"],
+  opp:["A maioria dos negócios não sabe quantos orçamentos abertos têm agora — e isso custa caro","Propostas sem acompanhamento são dinheiro na mesa que ninguém vai buscar","Um pipeline organizado prevê o faturamento do próximo mês antes que ele aconteça"],
+  won:["Conquistar o cliente errado custa mais do que não conquistar nenhum","Clientes mal escolhidos pedem desconto, reclamam mais e saem cedo","Os melhores negócios crescem sendo mais seletivos, não menos"],
+  onb:["A maioria dos cancelamentos começa nos primeiros 30 dias — silenciosamente","Cliente que não começa bem não fica. E quase nunca avisa por quê","Um bom processo de boas-vindas pode reduzir o abandono em até 3x"],
+  ado:["Cliente que não usa o que comprou está prestes a cancelar — mesmo sem falar nada","Engajamento ativo é o maior sinal de que a renovação vai acontecer","Negócios que acompanham o uso retêm até 2x mais clientes"],
+  ret:["Perder 1 cliente por mês parece pouco. Em 1 ano você perdeu parte relevante da base","Reter é até 7x mais barato do que conquistar um cliente novo","O balde furado: quanto mais você coloca, mais vaza pelo buraco do churn"],
+  exp:["Seu maior potencial de crescimento está nos clientes que você já tem","Vender mais para quem já confia em você custa até 5x menos","Negócios que exploram expansão crescem mesmo em meses ruins de aquisição"],
+  adv:["Indicação é o canal mais barato e mais ignorado do varejo brasileiro","Clientes que indicam têm ticket médio 16% maior que os captados por anúncio","Se seus clientes não falam de você, alguém está falhando em criar momentos memoráveis"],
 };
 
-const RAMOS=["Auto Peças / Acessórios","Auto Mecânica / Oficina","Pet Shop / Veterinária","Livraria / Papelaria","Pequena Indústria","Média Indústria","Distribuidora / Atacado","Loja de Móveis / Decoração","Material de Construção","Escola / Curso Técnico","Academia / Studio Fitness","Salão de Beleza / Estética","Alimentação / Lanchonete","Moda / Vestuário","SaaS / Software","Consultoria / Serviços","Financeiro / FinTech","Agro / AgroTech","Outro"];
-const AREAS=["Dono / Sócio","CEO / Diretor Geral","Diretor Comercial","Gerente de Vendas","Responsável pelo Marketing","Gestor de Atendimento / CS","Outro"];
+const RAMOS = ["Auto Peças / Acessórios","Auto Mecânica / Oficina","Pet Shop / Veterinária","Livraria / Papelaria","Pequena Indústria","Média Indústria","Distribuidora / Atacado","Loja de Móveis / Decoração","Material de Construção","Escola / Curso Técnico","Academia / Studio Fitness","Salão de Beleza / Estética","Alimentação / Lanchonete","Moda / Vestuário","SaaS / Software","Consultoria / Serviços","Financeiro / FinTech","Agro / AgroTech","Outro"];
+const AREAS = ["Dono / Sócio","CEO / Diretor Geral","Diretor Comercial","Gerente de Vendas","Responsável pelo Marketing","Gestor de Atendimento / CS","Outro"];
 
-const MODELS={
-  low:{label:"Low Touch",sub:"Venda pelo site / sem vendedor",desc:"O cliente descobre, escolhe e compra sozinho, sem precisar falar com ninguém da sua empresa.",examples:["Loja virtual de auto peças","Pet shop com delivery online","Livraria com e-commerce","Loja de moda com Instagram Shop","Curso gravado / EAD"],color:"#3B82F6",b:{l_mql:5,mql_sql:15,sql_opp:30,opp_won:20,onb:70,ado:50,ret:85,exp:15,adv:10,nrr:100,churn:3,payback:12,ltv_cac:3}},
-  medium:{label:"Medium Touch",sub:"Venda com ajuda da equipe",desc:"O cliente se interessa, mas precisa de um atendente ou vendedor para fechar. A venda é ativa, mas não exige reuniões longas.",examples:["Auto mecânica / oficina","Pet shop físico com recorrência","Distribuidora regional","Escola técnica / cursos presenciais","Pequena indústria com representantes"],color:"#8B5CF6",b:{l_mql:15,mql_sql:25,sql_opp:40,opp_won:25,onb:80,ado:65,ret:90,exp:25,adv:20,nrr:110,churn:1.5,payback:18,ltv_cac:4}},
-  high:{label:"High Touch",sub:"Venda consultiva / relacionamento",desc:"A venda exige visitas, propostas e negociação com mais de uma pessoa. Contratos maiores, ciclos longos.",examples:["Média indústria / fornecedor B2B","Distribuidora com contratos anuais","Empresa de reformas / construção","Fornecedor de máquinas e equipamentos","Serviços terceirizados (limpeza, segurança, TI)"],color:"#10B981",b:{l_mql:10,mql_sql:30,sql_opp:50,opp_won:35,onb:90,ado:75,ret:95,exp:35,adv:30,nrr:120,churn:0.5,payback:24,ltv_cac:5}}
+const MODELS = {
+  low:{label:"Low Touch",sub:"Venda pelo site / sem vendedor",desc:"O cliente descobre, escolhe e compra sozinho.",examples:["Loja virtual de auto peças","Pet shop com delivery online","Livraria com e-commerce","Loja de moda com Instagram Shop","Curso gravado / EAD"],color:"#3B82F6",b:{l_mql:5,mql_sql:15,sql_opp:30,opp_won:20,onb:70,ado:50,ret:85,exp:15,adv:10,nrr:100,churn:3,payback:12,ltv_cac:3}},
+  medium:{label:"Medium Touch",sub:"Venda com ajuda da equipe",desc:"O cliente precisa de um atendente ou vendedor para fechar.",examples:["Auto mecânica / oficina","Pet shop físico com recorrência","Distribuidora regional","Escola técnica / cursos presenciais","Pequena indústria com representantes"],color:"#8B5CF6",b:{l_mql:15,mql_sql:25,sql_opp:40,opp_won:25,onb:80,ado:65,ret:90,exp:25,adv:20,nrr:110,churn:1.5,payback:18,ltv_cac:4}},
+  high:{label:"High Touch",sub:"Venda consultiva / relacionamento",desc:"A venda exige visitas, propostas e negociação com múltiplos decisores.",examples:["Média indústria / fornecedor B2B","Distribuidora com contratos anuais","Empresa de reformas / construção","Fornecedor de máquinas e equipamentos","Serviços terceirizados (limpeza, segurança, TI)"],color:"#10B981",b:{l_mql:10,mql_sql:30,sql_opp:50,opp_won:35,onb:90,ado:75,ret:95,exp:35,adv:30,nrr:120,churn:0.5,payback:24,ltv_cac:5}}
 };
 
-const POPUPS={
-  leads:{title:"Visitantes e Leads",what:"É todo mundo que demonstrou interesse: entrou na loja, visitou o site, pediu orçamento, mandou mensagem no WhatsApp ou foi indicado.",why:"Se poucas pessoas chegam até você, o problema está na atração. Se chegam muitas mas compram poucas, o problema está na conversão.",impact:"Sem esse número, é impossível melhorar qualquer outra etapa. Você está voando no escuro."},
-  mql:{title:"Lead com Potencial Real",what:"Dos que chegaram, quantos têm o perfil certo para comprar? Necessidade real, dinheiro disponível e intenção de comprar em breve.",why:"Muitos negócios perdem tempo tentando vender para quem nunca vai comprar.",impact:"Sem qualificação, você gasta energia igual com quem vai comprar e quem só está pesquisando."},
-  sql:{title:"Prontos para Comprar",what:"Dentro dos qualificados, quantos já passaram por uma conversa e estão prontos para receber uma proposta ou tomar uma decisão?",why:"Revela se seu processo de atendimento está funcionando.",impact:"Quando esse número é baixo, geralmente é abordagem errada ou demora no retorno."},
-  opp:{title:"Propostas em Aberto",what:"Quantos orçamentos ou negociações estão abertos agora? Clientes que já receberam o preço e estão decidindo.",why:"É o termômetro das suas vendas. Poucos orçamentos abertos = vendas fracas nos próximos dias.",impact:"Se esse número cai, o faturamento cai logo em seguida."},
-  won:{title:"Clientes Novos Conquistados",what:"Quantos clientes novos você conquista por mês? Não os que voltaram — os novos mesmo.",why:"É o resultado direto de toda a máquina de aquisição.",impact:"Cliente mal escolhido consome energia, pede desconto, reclama mais e sai cedo."},
-  onb:{title:"Clientes que Começaram Bem",what:"De cada 100 clientes novos, quantos realmente começaram a usar o produto ou serviço como você esperava?",why:"Aqui o cliente decide — sem falar em voz alta — se vai continuar ou abandonar.",impact:"Cliente que não começa bem, não fica. Vira detrator."},
-  ado:{title:"Clientes Ativos e Engajados",what:"Dos seus clientes, quantos estão realmente engajados, voltando, usando com frequência e percebendo valor?",why:"Uso ativo é o maior sinal de que o cliente vai ficar e recomendar.",impact:"Clientes inativos são os primeiros a ir embora — e você só descobre quando já é tarde."},
-  ret:{title:"Clientes que Ficaram com Você",what:"De cada 100 clientes, quantos continuam comprando de você depois de algum tempo?",why:"Sem retenção, você corre só para manter o que tem — sem crescer.",impact:"Perder 20% dos clientes por ano significa repor todos eles só para não encolher."},
-  exp:{title:"Clientes que Compraram Mais",what:"Dos clientes atuais, quantos compraram algo adicional, fizeram upgrade ou aumentaram o pedido?",why:"Vender mais para quem já é seu cliente custa até 5x menos do que conquistar um novo.",impact:"Sem expansão, você depende 100% de novos clientes para crescer."},
-  adv:{title:"Clientes que Te Indicaram",what:"Quantos clientes, sem que você peça, recomendam seu negócio para outras pessoas?",why:"Indicação é o sinal mais forte de valor entregue. E o canal mais barato que existe.",impact:"Negócios que vivem de indicação têm custo de aquisição próximo de zero."},
-  ticket:{title:"Quanto Cada Cliente Paga por Ano",what:"Some tudo que um cliente médio paga em 12 meses. Esse é o valor anual por cliente.",why:"Define o modelo comercial que você pode sustentar.",impact:"Quem não sabe o que cada cliente vale não sabe se está lucrando ou destruindo valor."},
-  ltv:{title:"Valor Total de Um Cliente",what:"O LTV é tudo que um cliente paga enquanto permanece com você. Se paga R$500/mês e fica 2 anos, o LTV é R$12.000.",why:"Responde: quanto posso gastar para conquistar um cliente e ainda lucrar?",impact:"Sem saber o LTV, você chuta o custo de aquisição."},
-  cac:{title:"Quanto Custa Conquistar Um Cliente",what:"Some tudo gasto para trazer um novo cliente: anúncios, time de vendas, eventos, descontos, comissões. Divida pelos clientes novos do período.",why:"CAC crescendo é o primeiro sinal de que algo está errado.",impact:"CAC alto + cliente que paga pouco = prejuízo por venda."},
-  midia:{title:"Investimento Mensal em Divulgação",what:"Tudo que vai para Google, Instagram, panfletos, patrocínios, feiras — qualquer coisa que você paga para ser encontrado.",why:"Permite calcular se os canais pagos estão trazendo retorno real.",impact:"Crescer só por anúncio pago é caro e arriscado. O equilíbrio com orgânico define a saúde da aquisição."},
-  nrr:{title:"Sua Receita Está Crescendo ou Encolhendo?",what:"Imagina que você tem 100 clientes hoje. Daqui a um ano, considerando os que saíram, os que compraram menos E os que compraram mais — você vai ter mais ou menos receita? Se tiver mais, seu negócio cresce sozinho. Esse é o NRR.",why:"É o número mais importante do lado direito do funil. Resume a saúde de toda a operação.",impact:"NRR acima de 100% = seu negócio cresce mesmo sem conquistar nenhum cliente novo. Abaixo de 100% = você perde receita mesmo mantendo todos os clientes."},
-  churn:{title:"Quantos Clientes Você Perde Todo Mês",what:"Se você tinha 100 clientes no começo do mês e perdeu 5, seu churn é 5%. É a taxa de abandono do seu negócio.",why:"O churn é o buraco no balde. Com ele alto, não existe crescimento real.",impact:"5% ao mês parece pouco. Mas significa metade da sua base perdida em 1 ano."},
-  ciclo:{title:"Quanto Tempo Leva Para Fechar Uma Venda",what:"Do primeiro contato até o dinheiro na conta — quantos dias em média?",why:"Ciclo longo = fluxo de caixa imprevisível e time ocupado com negócios que podem não fechar.",impact:"Reduzir 20% do ciclo aumenta a capacidade do time em até 25% sem contratar ninguém."},
-  equipe_cs:{title:"Time de Pós-Venda / Atendimento",what:"Quantas pessoas cuidam dos clientes depois que eles compram?",why:"A proporção entre time e clientes define a qualidade do atendimento.",impact:"Time pequeno demais = atendimento reativo. Clientes abandonados saem sem avisar."},
-  clientes_cs:{title:"Quantos Clientes Cada Pessoa Atende",what:"Total de clientes ativos dividido pelo time de pós-venda.",why:"Diz se seu time tem capacidade de atender bem — ou se está sobrecarregado.",impact:"Acima de 150 clientes por pessoa sem automação = atendimento vira apagador de incêndios."}
+const POPUPS = {
+  leads:{title:"Visitantes e Leads",what:"Todo mundo que demonstrou interesse: entrou na loja, visitou o site, pediu orçamento ou foi indicado.",why:"Se poucas pessoas chegam, o problema é atração. Se chegam muitas mas compram poucas, o problema é conversão.",impact:"Sem esse número, é impossível melhorar qualquer etapa. Você está voando no escuro."},
+  mql:{title:"Lead com Potencial Real",what:"Dos que chegaram, quantos têm perfil certo para comprar? Necessidade real, dinheiro e intenção de comprar em breve.",why:"Muitos negócios perdem tempo tentando vender para quem nunca vai comprar.",impact:"Sem qualificação, você gasta energia igual com quem vai comprar e quem só está pesquisando."},
+  sql:{title:"Prontos para Comprar",what:"Dos qualificados, quantos estão prontos para receber uma proposta ou tomar uma decisão?",why:"Revela se seu processo de atendimento está funcionando.",impact:"Quando baixo, geralmente é abordagem errada ou demora no retorno."},
+  opp:{title:"Propostas em Aberto",what:"Quantos orçamentos ou negociações estão abertos agora?",why:"É o termômetro das suas vendas. Poucos orçamentos = vendas fracas nos próximos dias.",impact:"Se esse número cai, o faturamento cai logo em seguida."},
+  won:{title:"Clientes Novos Conquistados",what:"Quantos clientes novos você conquista por mês?",why:"É o resultado direto de toda a máquina de aquisição.",impact:"Cliente mal escolhido consome energia, pede desconto e sai cedo."},
+  onb:{title:"Clientes que Começaram Bem",what:"De cada 100 clientes novos, quantos realmente começaram a usar como você esperava?",why:"Aqui o cliente decide — sem falar em voz alta — se vai continuar ou abandonar.",impact:"Cliente que não começa bem, não fica. Vira detrator."},
+  ado:{title:"Clientes Ativos e Engajados",what:"Dos seus clientes, quantos estão realmente engajados e percebendo valor?",why:"Uso ativo é o maior sinal de que o cliente vai ficar e recomendar.",impact:"Clientes inativos são os primeiros a ir embora — você só descobre quando já é tarde."},
+  ret:{title:"Clientes que Ficaram",what:"De cada 100 clientes, quantos continuam comprando de você?",why:"Sem retenção, você corre só para manter o que tem — sem crescer.",impact:"Perder 20% dos clientes por ano significa repor todos eles só para não encolher."},
+  exp:{title:"Clientes que Compraram Mais",what:"Dos clientes atuais, quantos compraram algo adicional ou aumentaram o pedido?",why:"Vender mais para quem já é seu cliente custa até 5x menos.",impact:"Sem expansão, você depende 100% de novos clientes para crescer."},
+  adv:{title:"Clientes que Te Indicaram",what:"Quantos clientes, sem que você peça, recomendam seu negócio?",why:"Indicação é o sinal mais forte de valor entregue. E o canal mais barato.",impact:"Negócios de indicação têm custo de aquisição próximo de zero."},
+  ticket:{title:"Quanto Cada Cliente Paga por Ano",what:"Some tudo que um cliente médio paga em 12 meses.",why:"Define o modelo comercial que você pode sustentar.",impact:"Quem não sabe o que cada cliente vale não sabe se está lucrando."},
+  ltv:{title:"Valor Total de Um Cliente",what:"Tudo que um cliente paga enquanto permanece com você.",why:"Responde: quanto posso gastar para conquistar um cliente e ainda lucrar?",impact:"Sem saber o LTV, você chuta o custo de aquisição."},
+  cac:{title:"Quanto Custa Conquistar Um Cliente",what:"Tudo gasto para trazer um novo cliente dividido pelos clientes novos do período.",why:"CAC crescendo é o primeiro sinal de que algo está errado.",impact:"CAC alto + cliente que paga pouco = prejuízo por venda."},
+  midia:{title:"Investimento Mensal em Divulgação",what:"Tudo que vai para Google, Instagram, panfletos, patrocínios, feiras.",why:"Permite calcular se os canais pagos estão trazendo retorno real.",impact:"Crescer só por anúncio pago é caro e arriscado."},
+  nrr:{title:"Sua Receita Está Crescendo ou Encolhendo?",what:"Considera clientes que saíram, reduziram E os que compraram mais. Acima de 100% = cresce sozinha.",why:"É o número mais importante do lado direito do funil.",impact:"Acima de 100% = cresce sem novos clientes. Abaixo = perde receita mesmo mantendo todos."},
+  churn:{title:"Quantos Clientes Você Perde Todo Mês",what:"Se tinha 100 clientes e perdeu 5, seu churn é 5%.",why:"O churn é o buraco no balde. Com ele alto, não existe crescimento real.",impact:"5% ao mês = metade da base perdida em 1 ano."},
+  ciclo:{title:"Quanto Tempo Leva Para Fechar Uma Venda",what:"Do primeiro contato até o dinheiro na conta — quantos dias em média?",why:"Ciclo longo = fluxo de caixa imprevisível.",impact:"Reduzir 20% do ciclo aumenta a capacidade do time em até 25%."},
+  equipe_cs:{title:"Time de Pós-Venda / Atendimento",what:"Quantas pessoas cuidam dos clientes depois que eles compram?",why:"A proporção time/clientes define a qualidade do atendimento.",impact:"Time pequeno demais = atendimento reativo. Clientes abandonados saem sem avisar."},
+  clientes_cs:{title:"Quantos Clientes Cada Pessoa Atende",what:"Total de clientes ativos dividido pelo time de pós-venda.",why:"Diz se seu time tem capacidade de atender bem.",impact:"Acima de 150 sem automação = atendimento vira apagador de incêndios."}
 };
 
-const BOWTIE=[
+const BOWTIE = [
   {id:"leads",label:"Visitantes e Leads",short:"LEADS",side:"left",i:0,unit:"pessoas/mês",ph:"Ex: 500"},
   {id:"mql",label:"Leads com Potencial",short:"POTENCIAL",side:"left",i:1,unit:"leads/mês",ph:"Ex: 80"},
   {id:"sql",label:"Prontos para Comprar",short:"PRONTOS",side:"left",i:2,unit:"leads/mês",ph:"Ex: 30"},
@@ -104,20 +64,22 @@ const BOWTIE=[
   {id:"exp",label:"Clientes que compraram mais (%)",short:"MAIS",side:"right",ri:3,unit:"%",ph:"Ex: 10"},
   {id:"adv",label:"Clientes que indicaram (%)",short:"INDICOU",side:"right",ri:4,unit:"%",ph:"Ex: 5"},
 ];
-const BIZF=[
+
+const BIZF = [
   {id:"ticket",label:"Quanto cada cliente paga por ano (R$)",unit:"R$/ano",ph:"Ex: 3600"},
-  {id:"ltv",label:"Valor total de um cliente durante toda a relação (R$)",unit:"R$",ph:"Ex: 10800"},
+  {id:"ltv",label:"Valor total de um cliente (R$)",unit:"R$",ph:"Ex: 10800"},
   {id:"cac",label:"Quanto custa conquistar um cliente novo (R$)",unit:"R$",ph:"Ex: 800"},
-  {id:"midia",label:"Investimento mensal em anúncios e divulgação (R$)",unit:"R$/mês",ph:"Ex: 1500"},
-  {id:"nrr",label:"Sua receita cresce ou encolhe com os clientes atuais? (%)",unit:"%",ph:"Ex: 95 (100 = estável)"},
+  {id:"midia",label:"Investimento mensal em anúncios (R$)",unit:"R$/mês",ph:"Ex: 1500"},
+  {id:"nrr",label:"Sua receita cresce com os clientes atuais? (%)",unit:"%",ph:"Ex: 95"},
   {id:"churn",label:"% de clientes que você perde por mês",unit:"%/mês",ph:"Ex: 5"},
-  {id:"ciclo",label:"Quantos dias para fechar uma venda",unit:"dias",ph:"Ex: 15"},
+  {id:"ciclo",label:"Dias para fechar uma venda",unit:"dias",ph:"Ex: 15"},
   {id:"equipe_cs",label:"Pessoas no pós-venda / atendimento",unit:"pessoas",ph:"Ex: 1"},
-  {id:"clientes_cs",label:"Clientes ativos por pessoa do atendimento",unit:"clientes/pessoa",ph:"Ex: 50"},
+  {id:"clientes_cs",label:"Clientes por pessoa do atendimento",unit:"clientes/pessoa",ph:"Ex: 50"},
 ];
-const BIZ_LAYERS=[
+
+const BIZ_LAYERS = [
   {id:"revenue",label:"O que cada cliente vale",sub:"Ticket médio e valor de longo prazo",color:"#3B82F6",icon:"◈",fields:["ticket","ltv"]},
-  {id:"acquisition",label:"O que você gasta para conquistar",sub:"Custo de aquisição, mídia e ciclo de venda",color:"#F59E0B",icon:"◎",fields:["cac","midia","ciclo"]},
+  {id:"acquisition",label:"O que você gasta para conquistar",sub:"Custo de aquisição, mídia e ciclo",color:"#F59E0B",icon:"◎",fields:["cac","midia","ciclo"]},
   {id:"retention",label:"O que você faz para manter e crescer",sub:"Crescimento da base, abandono e atendimento",color:"#10B981",icon:"◉",fields:["nrr","churn","equipe_cs","clientes_cs"]},
 ];
 
@@ -132,6 +94,53 @@ const fmtVal=(id,bt)=>{const v=parseFloat(bt[id]);if(isNaN(v)||!bt[id])return"�
 const fmtR=(n)=>n>=1000000?`R$${(n/1000000).toFixed(1)}M`:n>=1000?`R$${(n/1000).toFixed(0)}k`:`R$${Math.round(n)}`;
 const rates=(bt)=>{const r=(a,b)=>a&&b&&parseFloat(b)>0?((parseFloat(a)/parseFloat(b))*100).toFixed(1):null;return{l_mql:r(bt.mql,bt.leads),mql_sql:r(bt.sql,bt.mql),sql_opp:r(bt.opp,bt.sql),opp_won:r(bt.won,bt.opp)};};
 
+// ── PDF GENERATOR (via print nativo — funciona em todos os ambientes) ─────────
+function gerarPDF(cad, M, bt, biz, teaserText) {
+  const r = rates(bt);
+  const conteudo = `
+    <html><head><title>Diagnóstico RevArch</title>
+    <style>
+      body{font-family:Arial,sans-serif;color:#1a1a2e;padding:32px;max-width:700px;margin:0 auto}
+      h1{font-size:22px;margin-bottom:4px}
+      h2{font-size:15px;color:#374151;border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin-top:24px}
+      .badge{display:inline-block;background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600}
+      .sub{color:#6b7280;font-size:13px;margin-bottom:16px}
+      .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+      .card{border:1px solid #e5e7eb;border-radius:8px;padding:12px}
+      .card .lbl{font-size:11px;color:#9ca3af;margin-bottom:4px}
+      .card .val{font-size:20px;font-weight:700;color:#1a1a2e}
+      .card .ref{font-size:11px;color:#d1d5db}
+      .analysis{background:#f9fafb;border-radius:8px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7;color:#374151}
+      .footer{margin-top:32px;font-size:11px;color:#9ca3af;text-align:center;border-top:1px solid #e5e7eb;padding-top:16px}
+      @media print{body{padding:16px}}
+    </style></head><body>
+    <p style="color:#6b7280;font-size:12px;margin-bottom:4px">LA Consultancy + CIAF — Revenue Architecture</p>
+    <h1>${cad.nome}</h1>
+    <p class="sub">${cad.ramo} · ${cad.area} · <span class="badge">${M.label}</span> · ${new Date().toLocaleDateString("pt-BR")}</p>
+    <h2>Métricas Principais</h2>
+    <div class="grid">
+      <div class="card"><div class="lbl">Retenção (GRR)</div><div class="val">${bt.ret?bt.ret+"%":"—"}</div><div class="ref">ref: ${M.b.ret}%</div></div>
+      <div class="card"><div class="lbl">Perda Mensal de Clientes</div><div class="val">${biz.churn?biz.churn+"%":"—"}</div><div class="ref">ref: ${M.b.churn}%</div></div>
+      <div class="card"><div class="lbl">Proposta → Fechado</div><div class="val">${r.opp_won?r.opp_won+"%":"—"}</div><div class="ref">ref: ${M.b.opp_won}%</div></div>
+      <div class="card"><div class="lbl">Ticket Anual</div><div class="val">${biz.ticket?"R$"+parseFloat(biz.ticket).toLocaleString("pt-BR"):"—"}</div><div class="ref"></div></div>
+    </div>
+    <h2>O que encontramos no seu negócio</h2>
+    <div class="analysis">${teaserText.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br/>")}</div>
+    <div class="footer">
+      Diagnóstico inicial gerado pela ferramenta Revenue Architecture — LA Consultancy + CIAF<br/>
+      O relatório completo será apresentado em uma conversa com o especialista.<br/>
+      laconsultancybr@gmail.com · +55 35 9 9989-4181
+    </div>
+    </body></html>
+  `;
+  const win = window.open("","_blank");
+  win.document.write(conteudo);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{ win.print(); }, 500);
+}
+
+// ── COMPONENTES ───────────────────────────────────────────────────────────────
 function Popup({field,onClose}){
   const c=POPUPS[field];if(!c)return null;
   return(
@@ -141,7 +150,7 @@ function Popup({field,onClose}){
           <span style={{color:"#fff",fontWeight:600,fontSize:15}}>{c.title}</span>
           <button onClick={onClose} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:18}}>✕</button>
         </div>
-        {[["📖 O que é","#60a5fa",c.what],["🎯 Por que olhar para isso","#a78bfa",c.why],["⚡ O que acontece se ignorar","#34d399",c.impact]].map(([l,c2,t])=>(
+        {[["📖 O que é","#60a5fa",c.what],["🎯 Por que olhar","#a78bfa",c.why],["⚡ O que acontece se ignorar","#34d399",c.impact]].map(([l,c2,t])=>(
           <div key={l} style={{marginBottom:"1rem"}}>
             <div style={{color:c2,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:4}}>{l}</div>
             <p style={{color:"#d1d5db",fontSize:13,lineHeight:1.65,margin:0}}>{t}</p>
@@ -180,35 +189,13 @@ const segClr=(s,bt,mode,activeId,mc,bench)=>{
 function BowtieSVG({bt,activeId,onStage,mode,mc,bench}){
   const left=BOWTIE.filter(s=>s.side==="left");
   const right=BOWTIE.filter(s=>s.side==="right");
-  const wonClr=()=>{
-    if(mode==="metrics"){const v=parseFloat(bt.won),p=parseFloat(bt.opp);return perfClr(p>0?(v/p)*100:null,bench?.opp_won);}
-    if(activeId==="won")return mc;if(bt.won)return mc+"88";return"#374151";
-  };
+  const wonClr=()=>{if(mode==="metrics"){const v=parseFloat(bt.won),p=parseFloat(bt.opp);return perfClr(p>0?(v/p)*100:null,bench?.opp_won);}if(activeId==="won")return mc;if(bt.won)return mc+"88";return"#374151";};
   return(
     <div style={{overflowX:"auto"}}>
       <svg viewBox="0 0 640 160" style={{width:"100%",minWidth:320,display:"block"}}>
-        {left.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=s.i*70+35,isA=activeId===s.id;return(
-          <g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}>
-            <polygon points={lPts(s.i)} fill={clr} stroke="#030712" strokeWidth="2.5"/>
-            {isA&&<polygon points={lPts(s.i)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}
-            <text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text>
-            <text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text>
-          </g>
-        );})}
-        <g onClick={()=>onStage?.("won")} style={{cursor:onStage?"pointer":"default"}}>
-          <polygon points={wonPts} fill={wonClr()} stroke="#030712" strokeWidth="2.5"/>
-          {activeId==="won"&&<polygon points={wonPts} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}
-          <text x={320} y={74} textAnchor="middle" fontSize="7" fontWeight="700" fill="#ffffffaa">FECHADOS</text>
-          <text x={320} y={90} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal("won",bt)}</text>
-        </g>
-        {right.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=360+s.ri*56+28,isA=activeId===s.id;return(
-          <g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}>
-            <polygon points={rPts(s.ri)} fill={clr} stroke="#030712" strokeWidth="2.5"/>
-            {isA&&<polygon points={rPts(s.ri)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}
-            <text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text>
-            <text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text>
-          </g>
-        );})}
+        {left.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=s.i*70+35,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={lPts(s.i)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={lPts(s.i)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
+        <g onClick={()=>onStage?.("won")} style={{cursor:onStage?"pointer":"default"}}><polygon points={wonPts} fill={wonClr()} stroke="#030712" strokeWidth="2.5"/>{activeId==="won"&&<polygon points={wonPts} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={320} y={74} textAnchor="middle" fontSize="7" fontWeight="700" fill="#ffffffaa">FECHADOS</text><text x={320} y={90} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal("won",bt)}</text></g>
+        {right.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=360+s.ri*56+28,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={rPts(s.ri)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={rPts(s.ri)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
         <text x={140} y={155} textAnchor="middle" fontSize="8" fill="#374151">← CONQUISTAR CLIENTES →</text>
         <text x={504} y={155} textAnchor="middle" fontSize="8" fill="#374151">← MANTER E FAZER CRESCER →</text>
       </svg>
@@ -235,12 +222,7 @@ function StageCard({stage,bt,onVal,onPrev,onNext,onInfo,mc,bench,isLast}){
       <FomoBullets stageId={stage.id}/>
       <input type="number" value={val} onChange={e=>onVal(stage.id,e.target.value)} placeholder={stage.ph} autoFocus
         style={{width:"100%",background:"#0f172a",border:`1px solid ${mc}66`,borderRadius:10,padding:"12px 14px",color:"#fff",fontSize:20,fontWeight:700,outline:"none",boxSizing:"border-box",marginBottom:bi?10:14}}/>
-      {bi&&(
-        <div style={{background:bi.good?"#052e16":"#1a0000",borderRadius:10,padding:"10px 12px",marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <div><span style={{color:"#fff",fontSize:13,fontWeight:600}}>Você: {bi.your}</span><span style={{color:"#6b7280",fontSize:12,marginLeft:12}}>Referência: {bi.benchStr}</span></div>
-          <span style={{color:bi.good?"#34d399":"#f87171",fontSize:12,fontWeight:600}}>{bi.msg}</span>
-        </div>
-      )}
+      {bi&&(<div style={{background:bi.good?"#052e16":"#1a0000",borderRadius:10,padding:"10px 12px",marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><span style={{color:"#fff",fontSize:13,fontWeight:600}}>Você: {bi.your}</span><span style={{color:"#6b7280",fontSize:12,marginLeft:12}}>Ref: {bi.benchStr}</span></div><span style={{color:bi.good?"#34d399":"#f87171",fontSize:12,fontWeight:600}}>{bi.msg}</span></div>)}
       <div style={{display:"flex",gap:8}}>
         {onPrev&&<button onClick={onPrev} style={{flex:1,padding:"10px",borderRadius:10,background:"#1f2937",border:"none",color:"#9ca3af",fontSize:13,cursor:"pointer"}}>← Anterior</button>}
         <button onClick={onNext} style={{flex:2,padding:"10px",borderRadius:10,background:mc,border:"none",color:"#fff",fontSize:13,fontWeight:600,cursor:"pointer"}}>{isLast?"Ver comparação →":"Próxima etapa →"}</button>
@@ -310,11 +292,12 @@ function MetricCard({stage,bt,bench,mc,onInfo}){
       <FomoBullets stageId={stage.id}/>
       {good===false&&<p style={{color:"#f87171",fontSize:12,margin:"8px 0 0"}}>Abaixo da referência — esse ponto merece atenção imediata</p>}
       {good===true&&<p style={{color:"#34d399",fontSize:12,margin:"8px 0 0"}}>Dentro ou acima do esperado</p>}
-      {yourVal==="—"&&<p style={{color:"#4b5563",fontSize:12,margin:"8px 0 0",fontStyle:"italic"}}>Dado não informado — isso é um ponto cego no seu negócio</p>}
+      {yourVal==="—"&&<p style={{color:"#4b5563",fontSize:12,margin:"8px 0 0",fontStyle:"italic"}}>Dado não informado — ponto cego identificado</p>}
     </div>
   );
 }
 
+// ── PROMPTS ──────────────────────────────────────────────────────────────────
 const buildTeaserPrompt=(cad,M,bt,biz)=>{
   const r=rates(bt);const b=M.b;
   return`Você é consultor da LA Consultancy especializado em Revenue Architecture para o varejo brasileiro.
@@ -324,47 +307,46 @@ OBJETIVO: gerar consciência e FOMO — revelar apenas 40-50% do diagnóstico. D
 
 Dados:
 - Leads/mês: ${bt.leads||"não informado"} | Clientes novos/mês: ${bt.won||"não informado"}
-- Clientes começando bem: ${bt.onb||"não informado"}% | Ativos: ${bt.ado||"não informado"}% | Ficaram: ${bt.ret||"não informado"}%
+- Começando bem: ${bt.onb||"não informado"}% | Ativos: ${bt.ado||"não informado"}% | Ficaram: ${bt.ret||"não informado"}%
 - Compraram mais: ${bt.exp||"não informado"}% | Indicaram: ${bt.adv||"não informado"}%
-- Conv. chegam→potencial: ${r.l_mql||"não calculado"}% (ref: ${b.l_mql}%) | Proposta→Fechado: ${r.opp_won||"não calculado"}% (ref: ${b.opp_won}%)
-- Quanto cada cliente vale/ano: R$${biz.ticket||"não informado"} | Custo de aquisição: R$${biz.cac||"não informado"} | Perda mensal de clientes: ${biz.churn||"não informado"}%
+- Chegam→potencial: ${r.l_mql||"N/C"}% (ref: ${b.l_mql}%) | Proposta→Fechado: ${r.opp_won||"N/C"}% (ref: ${b.opp_won}%)
+- Ticket/ano: R$${biz.ticket||"N/I"} | CAC: R$${biz.cac||"N/I"} | Perda mensal: ${biz.churn||"N/I"}%
 
-LINGUAGEM: simples, direta, como uma conversa. Sem jargão. Use os dados reais. Se um dado falta, mencione que a ausência em si já é um sinal.
-NÃO use os termos NRR, churn, MQL, SQL, CAC — substitua por linguagem do dia a dia do empresário brasileiro.
+LINGUAGEM: simples, direta, como conversa. Sem jargão. Use dados reais. Se dado falta, mencione que a ausência é um sinal.
+NÃO use: NRR, churn, MQL, SQL, CAC — use linguagem do dia a dia do empresário brasileiro.
 
 Responda com estas 3 seções (títulos em negrito):
 
 **O que já conseguimos enxergar no seu negócio**
-2 parágrafos revelando parcialmente. Aponte 1-2 pontos de atenção sem explicar como resolver. Termine com uma sensação de "tem muito mais aqui".
+2 parágrafos revelando parcialmente. Aponte 1-2 pontos de atenção sem explicar como resolver. Termine com sensação de "tem muito mais aqui".
 
 **O que ainda está escondido nos seus números**
-1 parágrafo curto dizendo que o relatório completo — com os gargalos detalhados, o dinheiro sendo perdido em R$ e um plano de 90 dias — está sendo preparado para uma conversa.
+1 parágrafo curto dizendo que o relatório completo — com gargalos, dinheiro perdido em R$ e plano de 90 dias — está sendo preparado.
 
 **O próximo passo**
-1 frase convidando para a conversa. Tom: próximo, honesto, sem pressão de venda.`;
+1 frase convidando para a conversa. Tom: próximo, honesto, sem pressão.`;
 };
 
 const buildFullReportPrompt=(cad,M,bt,biz)=>{
   const r=rates(bt);const b=M.b;
   return`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.
-Gere um relatório COMPLETO para o consultor — não para o lead.
+Gere um relatório COMPLETO para o consultor.
 
 LEAD: ${cad.nome} | ${cad.ramo} | ${cad.area} | ${M.label} | Email: ${cad.email} | WhatsApp: ${cad.tel}
-
-BOWTIE: Leads ${bt.leads||"N/A"} | Potencial ${bt.mql||"N/A"} | Prontos ${bt.sql||"N/A"} | Propostas ${bt.opp||"N/A"} | Fechados ${bt.won||"N/A"}
-Conv: L→P ${r.l_mql||"N/A"}% (bench ${b.l_mql}%) | M→S ${r.mql_sql||"N/A"}% (bench ${b.mql_sql}%) | S→O ${r.sql_opp||"N/A"}% (bench ${b.sql_opp}%) | O→W ${r.opp_won||"N/A"}% (bench ${b.opp_won}%)
+BOWTIE: Leads ${bt.leads||"N/A"} | Pot ${bt.mql||"N/A"} | Pron ${bt.sql||"N/A"} | Prop ${bt.opp||"N/A"} | Won ${bt.won||"N/A"}
+Conv: L→P ${r.l_mql||"N/A"}% (b${b.l_mql}%) | M→S ${r.mql_sql||"N/A"}% | S→O ${r.sql_opp||"N/A"}% | O→W ${r.opp_won||"N/A"}% (b${b.opp_won}%)
 Onb ${bt.onb||"N/A"}% | Ado ${bt.ado||"N/A"}% | Ret ${bt.ret||"N/A"}% | Exp ${bt.exp||"N/A"}% | Adv ${bt.adv||"N/A"}%
-Financeiro: Ticket R$${biz.ticket||"N/A"}/ano | LTV R$${biz.ltv||"N/A"} | CAC R$${biz.cac||"N/A"} | NRR ${biz.nrr||"N/A"}% | Churn ${biz.churn||"N/A"}%/mês | Ciclo ${biz.ciclo||"N/A"}d | CS: ${biz.equipe_cs||"N/A"} pessoas/${biz.clientes_cs||"N/A"} clientes
+Financeiro: Ticket R$${biz.ticket||"N/A"}/ano | LTV R$${biz.ltv||"N/A"} | CAC R$${biz.cac||"N/A"} | NRR ${biz.nrr||"N/A"}% | Churn ${biz.churn||"N/A"}%/mês | Ciclo ${biz.ciclo||"N/A"}d | CS: ${biz.equipe_cs||"N/A"}p/${biz.clientes_cs||"N/A"}cl
 
-Seções do relatório:
-1. DIAGNÓSTICO EXECUTIVO — estado atual completo, conexões entre etapas
+1. DIAGNÓSTICO EXECUTIVO COMPLETO — estado atual, conexões entre etapas
 2. TOP 3 GARGALOS — descrição, impacto em R$, causa provável, urgência
 3. MOMENTOS CRÍTICOS — onde a experiência do cliente está comprometida
 4. RECEITA DEIXADA NA MESA — cálculo específico em R$
 5. PLANO DE 90 DIAS — semanas 1-4 quick wins, meses 2-3 estruturante, KPIs
-6. PERFIL COMERCIAL — nível de dor, maturidade, urgência, abordagem recomendada para reunião`;
+6. PERFIL COMERCIAL — nível de dor, maturidade, urgência, abordagem recomendada`;
 };
 
+// ── APP PRINCIPAL ─────────────────────────────────────────────────────────────
 export default function App(){
   const [view,setView]=useState("model");
   const [model,setModel]=useState(null);
@@ -384,6 +366,7 @@ export default function App(){
   const [emailStatus,setEmailStatus]=useState("idle");
   const [kb,setKb]=useState("");
   const [kbStatus,setKbStatus]=useState("idle");
+  const [pdfLoading,setPdfLoading]=useState(false);
 
   const M=model?MODELS[model]:null;
   const mc=M?.color||"#3B82F6";
@@ -412,11 +395,21 @@ export default function App(){
     }catch{setKbStatus("err");return"";}
   };
 
+  // ── CHAMADA VIA PROXY /api/claude ─────────────────────────────────────────
   const callAI=async(prompt,kbContent="")=>{
     const system=kbContent
-      ?`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.\n\nBASE DE CONHECIMENTO ADICIONAL:\n${kbContent}\n\n---`
+      ?`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.\n\nBASE DE CONHECIMENTO:\n${kbContent}\n---`
       :`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.`;
-    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1500,system,messages:[{role:"user",content:prompt}]})});
+    const res=await fetch("/api/claude",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1500,
+        system,
+        messages:[{role:"user",content:prompt}]
+      })
+    });
     const data=await res.json();
     if(data.error)throw new Error(data.error.message);
     return data.content?.find(c=>c.type==="text")?.text||"";
@@ -426,7 +419,20 @@ export default function App(){
     const r=rates(bt);
     setSheetsStatus("saving");
     try{
-      await fetch(SHEETS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({timestamp:new Date().toLocaleString("pt-BR"),nome:cad.nome,email:cad.email,tel:cad.tel,ramo:cad.ramo,area:cad.area,modelo:M?.label,nrr:biz.nrr||"",churn:biz.churn||"",ticket:biz.ticket||"",cac:biz.cac||"",conv_lead_mql:r.l_mql||"",conv_opp_won:r.opp_won||"",ret:bt.ret||"",ado:bt.ado||"",relatorio_completo:relatorio,origem:"revenue-arch-v3"})});
+      await fetch(SHEETS_URL,{
+        method:"POST",mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          timestamp:new Date().toLocaleString("pt-BR"),
+          nome:cad.nome,email:cad.email,tel:cad.tel,
+          ramo:cad.ramo,area:cad.area,modelo:M?.label,
+          nrr:biz.nrr||"",churn:biz.churn||"",ticket:biz.ticket||"",cac:biz.cac||"",
+          conv_lead_mql:r.l_mql||"",conv_opp_won:r.opp_won||"",
+          ret:bt.ret||"",ado:bt.ado||"",
+          relatorio_completo:relatorio,
+          origem:"revenue-arch-v3"
+        })
+      });
       setSheetsStatus("ok");setEmailStatus("ok");
     }catch{setSheetsStatus("err");setEmailStatus("err");}
   };
@@ -441,8 +447,16 @@ export default function App(){
       ]);
       setTeaser(teaserTxt);
       sendToSheets(fullTxt);
-    }catch(err){setTeaser(`Erro: ${err.message}`);}
+    }catch(err){setTeaser(`Erro ao gerar análise: ${err.message}`);}
     setLoadingTeaser(false);
+  };
+
+  const handleDownloadPDF=()=>{
+    if(!teaser)return;
+    setPdfLoading(true);
+    try{ gerarPDF(cad,M,bt,biz,teaser); }
+    catch(e){ alert("Erro ao gerar PDF: "+e.message); }
+    setPdfLoading(false);
   };
 
   const reset=()=>{setView("model");setModel(null);setStep(1);setActiveIdx(0);setActiveM3(null);setShowBench(false);setCad({nome:"",email:"",tel:"",ramo:"",area:""});setLgpd(false);setCadErr({});setBt({leads:"",mql:"",sql:"",opp:"",won:"",onb:"",ado:"",ret:"",exp:"",adv:""});setBiz({ticket:"",ltv:"",cac:"",midia:"",nrr:"",churn:"",ciclo:"",equipe_cs:"",clientes_cs:""});setTeaser("");setSheetsStatus("idle");setEmailStatus("idle");};
@@ -477,7 +491,6 @@ export default function App(){
       </div>
       <div style={{maxWidth:560,margin:"0 auto"}}>
 
-        {/* MODEL */}
         {view==="model"&&(
           <>
             <div style={{textAlign:"center",marginBottom:"2rem"}}>
@@ -500,9 +513,7 @@ export default function App(){
                       <span style={{fontSize:11,padding:"2px 8px",borderRadius:6,background:"#1f2937",color:"#9ca3af"}}>{m.sub}</span>
                     </div>
                     <p style={{color:"#6b7280",fontSize:12,margin:"0 0 8px",lineHeight:1.5}}>{m.desc}</p>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
-                      {m.examples.map(ex=><span key={ex} style={{fontSize:11,background:"#1f2937",color:"#9ca3af",borderRadius:6,padding:"2px 8px"}}>{ex}</span>)}
-                    </div>
+                    <div style={{display:"flex",flexWrap:"wrap",gap:4}}>{m.examples.map(ex=><span key={ex} style={{fontSize:11,background:"#1f2937",color:"#9ca3af",borderRadius:6,padding:"2px 8px"}}>{ex}</span>)}</div>
                   </div>
                   <span style={{color:"#374151",fontSize:18,flexShrink:0}}>→</span>
                 </div>
@@ -515,7 +526,6 @@ export default function App(){
           </>
         )}
 
-        {/* CADASTRO */}
         {view==="cad"&&(
           <>
             <button onClick={()=>setView("model")} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:13,marginBottom:20,padding:0}}>← Voltar</button>
@@ -534,7 +544,7 @@ export default function App(){
                 <div style={{width:20,height:20,borderRadius:6,background:lgpd?mc:"transparent",border:`2px solid ${lgpd?mc:"#374151"}`,flexShrink:0,marginTop:1,display:"flex",alignItems:"center",justifyContent:"center"}}>
                   {lgpd&&<span style={{color:"#fff",fontSize:12,fontWeight:700}}>✓</span>}
                 </div>
-                <span style={{color:"#6b7280",fontSize:12,lineHeight:1.6}}>Concordo com o uso dos meus dados para análise do negócio e contato por um especialista, conforme a LGPD. Seus dados financeiros não são armazenados publicamente.</span>
+                <span style={{color:"#6b7280",fontSize:12,lineHeight:1.6}}>Concordo com o uso dos meus dados para análise e contato por um especialista, conforme a LGPD. Dados financeiros não são armazenados publicamente.</span>
               </label>
               {cadErr.lgpd&&<p style={{color:"#f87171",fontSize:11,margin:"6px 0 0"}}>{cadErr.lgpd}</p>}
             </div>
@@ -544,10 +554,8 @@ export default function App(){
           </>
         )}
 
-        {/* STEPS */}
         {view==="steps"&&(
           <>
-            {/* M1 */}
             {step===1&&(
               <>
                 <button onClick={()=>setView("cad")} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:13,marginBottom:16,padding:0}}>← Voltar</button>
@@ -577,10 +585,7 @@ export default function App(){
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
                       {[{l:"Chegam → Potencial",y:rates(bt).l_mql,b:M.b.l_mql},{l:"Potencial → Pronto",y:rates(bt).mql_sql,b:M.b.mql_sql},{l:"Proposta → Fechado",y:rates(bt).opp_won,b:M.b.opp_won},{l:"Clientes que ficam",y:bt.ret,b:M.b.ret},{l:"Clientes ativos",y:bt.ado,b:M.b.ado},{l:"Indicações",y:bt.adv,b:M.b.adv}].map(r=>{
                         const v=parseFloat(r.y),g=!isNaN(v)&&v>=r.b*0.9;
-                        return(<div key={r.l} style={{background:"#0f172a",borderRadius:8,padding:"8px 10px"}}>
-                          <div style={{color:"#6b7280",fontSize:10,marginBottom:2}}>{r.l}</div>
-                          <div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:!isNaN(v)?g?"#34d399":"#f87171":"#374151",fontSize:13,fontWeight:600}}>{!isNaN(v)?`${v.toFixed(1)}%`:"—"}</span><span style={{color:"#374151",fontSize:10}}>ref: {r.b}%</span></div>
-                        </div>);
+                        return(<div key={r.l} style={{background:"#0f172a",borderRadius:8,padding:"8px 10px"}}><div style={{color:"#6b7280",fontSize:10,marginBottom:2}}>{r.l}</div><div style={{display:"flex",justifyContent:"space-between"}}><span style={{color:!isNaN(v)?g?"#34d399":"#f87171":"#374151",fontSize:13,fontWeight:600}}>{!isNaN(v)?`${v.toFixed(1)}%`:"—"}</span><span style={{color:"#374151",fontSize:10}}>ref: {r.b}%</span></div></div>);
                       })}
                     </div>
                   </div>
@@ -589,35 +594,30 @@ export default function App(){
               </>
             )}
 
-            {/* M2 */}
             {step===2&&(
               <>
                 <button onClick={()=>setStep(1)} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:13,marginBottom:16,padding:0}}>← Voltar</button>
                 <div style={{marginBottom:16}}>
                   <span style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",padding:"3px 8px",borderRadius:6,background:mc+"22",color:mc}}>Etapa 2 de 4</span>
                   <h2 style={{color:"#fff",fontSize:20,fontWeight:600,margin:"8px 0 4px"}}>Os números financeiros do negócio</h2>
-                  <p style={{color:"#6b7280",fontSize:13,margin:"0 0 20px"}}>Clique em cada bloco para expandir. Use aproximações — o importante é a ordem de grandeza.</p>
+                  <p style={{color:"#6b7280",fontSize:13,margin:"0 0 20px"}}>Clique em cada bloco para expandir. Use aproximações.</p>
                   <VerticalFunnel biz={biz} setBiz={setBiz} onInfo={setPopup}/>
                 </div>
                 <button onClick={()=>setStep(3)} style={{width:"100%",padding:"13px",borderRadius:12,background:mc,border:"none",color:"#fff",fontSize:14,fontWeight:600,cursor:"pointer"}}>Ver diagnóstico por etapa →</button>
               </>
             )}
 
-            {/* M3 */}
             {step===3&&(
               <>
                 <button onClick={()=>setStep(2)} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:13,marginBottom:16,padding:0}}>← Voltar</button>
                 <div style={{marginBottom:14}}>
                   <span style={{fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",padding:"3px 8px",borderRadius:6,background:mc+"22",color:mc}}>Etapa 3 de 4</span>
                   <h2 style={{color:"#fff",fontSize:20,fontWeight:600,margin:"8px 0 4px"}}>Como está cada parte do seu negócio</h2>
-                  <p style={{color:"#6b7280",fontSize:13,margin:0}}>Toque em qualquer etapa para ver a análise e o que pode estar acontecendo.</p>
+                  <p style={{color:"#6b7280",fontSize:13,margin:0}}>Toque em qualquer etapa para ver a análise.</p>
                 </div>
                 <div style={{background:"#1a1200",border:"1px solid #713f12",borderRadius:12,padding:"10px 14px",marginBottom:12,display:"flex",gap:10}}>
                   <span style={{fontSize:16,flexShrink:0}}>🍦</span>
-                  <div>
-                    <div style={{color:"#fbbf24",fontSize:13,fontWeight:600,marginBottom:2}}>Momentos Críticos</div>
-                    <p style={{color:"#92400e",fontSize:12,margin:0,lineHeight:1.5}}>Etapas em vermelho são os pontos onde seus clientes estão abandonando o negócio — muitas vezes sem que você perceba.</p>
-                  </div>
+                  <div><div style={{color:"#fbbf24",fontSize:13,fontWeight:600,marginBottom:2}}>Momentos Críticos</div><p style={{color:"#92400e",fontSize:12,margin:0,lineHeight:1.5}}>Etapas em vermelho são os pontos onde seus clientes estão abandonando o negócio — muitas vezes sem que você perceba.</p></div>
                 </div>
                 <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1rem",marginBottom:12}}>
                   <div style={{display:"flex",gap:10,fontSize:11,marginBottom:10,flexWrap:"wrap"}}>
@@ -635,7 +635,6 @@ export default function App(){
               </>
             )}
 
-            {/* M4 */}
             {step===4&&(
               <>
                 <button onClick={()=>setStep(3)} style={{background:"none",border:"none",color:"#6b7280",cursor:"pointer",fontSize:13,marginBottom:16,padding:0}}>← Voltar</button>
@@ -671,14 +670,14 @@ export default function App(){
                   <BowtieSVG bt={bt} activeId={null} onStage={null} mode="metrics" mc={mc} bench={M?.b}/>
                 </div>
 
-                {/* Métricas simples */}
+                {/* Métricas */}
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
                   {(()=>{
                     const r=rates(bt);
                     const ltvCac=biz.ltv&&biz.cac&&parseFloat(biz.cac)>0?(parseFloat(biz.ltv)/parseFloat(biz.cac)).toFixed(1):null;
                     return[
                       {l:"Clientes que ficam",v:bt.ret?`${bt.ret}%`:"—",b:`${M.b.ret}%`,g:parseFloat(bt.ret||0)>=M.b.ret*0.9,has:!!bt.ret},
-                      {l:"Perda mensal de clientes",v:biz.churn?`${biz.churn}%`:"—",b:`${M.b.churn}%`,g:parseFloat(biz.churn||99)<=M.b.churn*1.2,has:!!biz.churn,inv:true},
+                      {l:"Perda mensal",v:biz.churn?`${biz.churn}%`:"—",b:`${M.b.churn}%`,g:parseFloat(biz.churn||99)<=M.b.churn*1.2,has:!!biz.churn},
                       {l:"Valor por cliente vs. custo",v:ltvCac?`${ltvCac}x`:"—",b:`${M.b.ltv_cac}x`,g:parseFloat(ltvCac||0)>=M.b.ltv_cac,has:!!ltvCac},
                       {l:"Proposta → Fechado",v:r.opp_won?`${r.opp_won}%`:"—",b:`${M.b.opp_won}%`,g:parseFloat(r.opp_won||0)>=M.b.opp_won*0.9,has:!!r.opp_won},
                     ].map(m=>(
@@ -696,10 +695,11 @@ export default function App(){
                   <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:mc}}/>
                     <span style={{color:"#fff",fontWeight:600,fontSize:14}}>O que encontramos</span>
-                    <div style={{marginLeft:"auto",display:"flex",gap:6}}>
+                    <div style={{marginLeft:"auto",display:"flex",gap:6,flexWrap:"wrap"}}>
                       {kbStatus==="loading"&&<span style={{background:"#1e3a5f",color:"#60a5fa",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Carregando base...</span>}
                       {kbStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Base ativa</span>}
                       {emailStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Relatório enviado</span>}
+                      {sheetsStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Salvo no Sheets</span>}
                     </div>
                   </div>
                   {loadingTeaser?(
@@ -715,30 +715,40 @@ export default function App(){
                   )}
                 </div>
 
-                {/* CTA + contato */}
+                {/* Download PDF */}
+                {!loadingTeaser&&teaser&&(
+                  <button onClick={handleDownloadPDF} disabled={pdfLoading}
+                    style={{width:"100%",padding:"12px",borderRadius:12,background:"#1e3a5f",border:"1px solid #3b82f644",color:"#93c5fd",fontSize:14,fontWeight:600,cursor:"pointer",marginBottom:10}}>
+                    {pdfLoading?"Gerando PDF...":"⬇ Baixar diagnóstico em PDF"}
+                  </button>
+                )}
+
+                {/* CTA WhatsApp */}
                 {!loadingTeaser&&teaser&&(
                   <>
                     <div style={{background:"#0a1a0a",border:"1px solid #14532d",borderRadius:16,padding:"1.25rem",marginBottom:10}}>
                       <p style={{color:"#34d399",fontSize:14,fontWeight:600,margin:"0 0 6px"}}>Quer ver o diagnóstico completo?</p>
-                      <p style={{color:"#6b7280",fontSize:12,margin:"0 0 14px",lineHeight:1.6}}>O relatório completo — com os gargalos detalhados, o dinheiro que está sendo perdido em R$ e um plano de ação de 90 dias — está pronto para uma conversa sem compromisso.</p>
+                      <p style={{color:"#6b7280",fontSize:12,margin:"0 0 14px",lineHeight:1.6}}>O relatório completo — com os gargalos detalhados, o dinheiro perdido em R$ e um plano de 90 dias — está pronto para uma conversa sem compromisso.</p>
                       <a href={`https://wa.me/${WA}?text=Olá! Sou ${encodeURIComponent(cad.nome)}, ${encodeURIComponent(cad.area)} de um negócio de ${encodeURIComponent(cad.ramo)}. Fiz o diagnóstico e gostaria de ver o relatório completo.`}
                         target="_blank" rel="noreferrer"
                         style={{display:"block",width:"100%",padding:"13px",borderRadius:10,background:"#16a34a",color:"#fff",fontSize:14,fontWeight:600,textAlign:"center",textDecoration:"none",boxSizing:"border-box"}}>
                         Quero ver o relatório — falar no WhatsApp →
                       </a>
                     </div>
+
+                    {/* Outros canais */}
                     <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1.25rem",marginBottom:12}}>
                       <p style={{color:"#9ca3af",fontSize:13,fontWeight:600,margin:"0 0 12px"}}>Ou entre em contato pelo canal que preferir:</p>
                       <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                        <a href={`mailto:${EMAIL}?subject=Diagnóstico Revenue Architecture — ${encodeURIComponent(cad.nome)}&body=Olá! Fiz o diagnóstico e gostaria de receber o relatório completo.`}
+                        <a href={`mailto:${EMAIL_CTT}?subject=Diagnóstico Revenue Architecture — ${encodeURIComponent(cad.nome)}`}
                           style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
                           <span style={{fontSize:16}}>✉</span>
-                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Email</div><div style={{color:"#4b5563",fontSize:11}}>{EMAIL}</div></div>
+                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Email</div><div style={{color:"#4b5563",fontSize:11}}>{EMAIL_CTT}</div></div>
                         </a>
                         <a href={INSTA} target="_blank" rel="noreferrer"
                           style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
                           <span style={{fontSize:16}}>◉</span>
-                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Instagram</div><div style={{color:"#4b5563",fontSize:11}}>@laconsultancy</div></div>
+                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Instagram</div><div style={{color:"#4b5563",fontSize:11}}>@laconsultancybr</div></div>
                         </a>
                         <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer"
                           style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
@@ -747,10 +757,11 @@ export default function App(){
                         </a>
                       </div>
                     </div>
+
                     <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:12,padding:"12px 14px",marginBottom:12}}>
                       <p style={{color:"#4b5563",fontSize:12,margin:0,lineHeight:1.6}}>
-                        <span style={{color:"#6b7280",fontWeight:600}}>Onde fica o seu diagnóstico completo?</span><br/>
-                        O relatório detalhado foi enviado automaticamente para a equipe da LA Consultancy. Na sua conversa, você vai receber uma cópia personalizada com todas as análises e o plano de ação.
+                        <span style={{color:"#6b7280",fontWeight:600}}>Onde fica seu diagnóstico completo?</span><br/>
+                        O relatório detalhado foi salvo automaticamente no Google Drive da LA Consultancy e enviado por email para a equipe. Na sua conversa, você recebe uma cópia personalizada com todas as análises e o plano de ação.
                       </p>
                     </div>
                   </>
