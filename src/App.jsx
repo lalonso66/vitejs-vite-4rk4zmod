@@ -1,14 +1,13 @@
 import { useState } from "react";
 
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxRrfWAoCngO2I7iZVtcNFtTDKc-IIQqHyms4KF-FSY61ldKozHsdeyehO5JUj80SDf/exec";
-const WA        = "5535999894181";
-const KB_URL    = "https://docs.google.com/document/d/e/2PACX-1vRHVa4H74S_TYScxNxSOu4zdC5_5UY7aGNmx6bAEuDSTIt-o6Cl4tVtnbxGlfEOmuS7AW1RfU5uqEYf/pub";
-const INSTA     = "https://instagram.com/laconsultancybr";
-const EMAIL_CTT = "laconsultancybr@gmail.com";
+const SHEETS_URL="https://script.google.com/macros/s/AKfycbxRrfWAoCngO2I7iZVtcNFtTDKc-IIQqHyms4KF-FSY61ldKozHsdeyehO5JUj80SDf/exec";
+const WA="5535999894181";
+const INSTA="https://instagram.com/laconsultancybr";
+const EMAIL_CTT="laconsultancybr@gmail.com";
 
-const BENCH_NOTE = `As referências usadas neste diagnóstico foram desenvolvidas pela LA Consultancy em parceria com o CIAF, baseadas na metodologia Winning by Design e aperfeiçoadas para a realidade do varejista e empresário brasileiro. Não existe certo ou errado — o objetivo é te dar um ponto de partida honesto para enxergar onde estão as maiores oportunidades no seu negócio.`;
+const BENCH_NOTE=`As referências usadas neste diagnóstico foram desenvolvidas pela LA Consultancy em parceria com o CIAF, baseadas na metodologia Winning by Design e aperfeiçoadas para a realidade do varejista e empresário brasileiro. Não existe certo ou errado — o objetivo é te dar um ponto de partida honesto para enxergar onde estão as maiores oportunidades no seu negócio.`;
 
-const FOMO = {
+const FOMO={
   leads:["Negócios que não medem quem chega até eles perdem em média 40% das oportunidades sem saber","Saber de onde vêm seus melhores clientes pode reduzir seu custo de divulgação pela metade","A maioria dos donos de negócio chuta esse número — e chuta errado"],
   mql:["Você provavelmente está gastando energia com pessoas que nunca vão comprar","Qualificar melhor pode dobrar sua taxa de fechamento sem aumentar o time","Negócios que definem o perfil ideal do cliente vendem mais com menos esforço"],
   sql:["Demora no retorno é a principal razão de perda de venda no varejo brasileiro","Um processo simples de follow-up pode recuperar 20-30% das vendas perdidas","Quem responde primeiro tende a vender mais — independente do preço"],
@@ -21,38 +20,38 @@ const FOMO = {
   adv:["Indicação é o canal mais barato e mais ignorado do varejo brasileiro","Clientes que indicam têm ticket médio 16% maior que os captados por anúncio","Se seus clientes não falam de você, alguém está falhando em criar momentos memoráveis"],
 };
 
-const RAMOS = ["Auto Peças / Acessórios","Auto Mecânica / Oficina","Pet Shop / Veterinária","Livraria / Papelaria","Pequena Indústria","Média Indústria","Distribuidora / Atacado","Loja de Móveis / Decoração","Material de Construção","Escola / Curso Técnico","Academia / Studio Fitness","Salão de Beleza / Estética","Alimentação / Lanchonete","Moda / Vestuário","SaaS / Software","Consultoria / Serviços","Financeiro / FinTech","Agro / AgroTech","Outro"];
-const AREAS = ["Dono / Sócio","CEO / Diretor Geral","Diretor Comercial","Gerente de Vendas","Responsável pelo Marketing","Gestor de Atendimento / CS","Outro"];
+const RAMOS=["Auto Peças / Acessórios","Auto Mecânica / Oficina","Pet Shop / Veterinária","Livraria / Papelaria","Pequena Indústria","Média Indústria","Distribuidora / Atacado","Loja de Móveis / Decoração","Material de Construção","Escola / Curso Técnico","Academia / Studio Fitness","Salão de Beleza / Estética","Alimentação / Lanchonete","Moda / Vestuário","SaaS / Software","Consultoria / Serviços","Financeiro / FinTech","Agro / AgroTech","Outro"];
+const AREAS=["Dono / Sócio","CEO / Diretor Geral","Diretor Comercial","Gerente de Vendas","Responsável pelo Marketing","Gestor de Atendimento / CS","Outro"];
 
-const MODELS = {
+const MODELS={
   low:{label:"Low Touch",sub:"Venda pelo site / sem vendedor",desc:"O cliente descobre, escolhe e compra sozinho.",examples:["Loja virtual de auto peças","Pet shop com delivery online","Livraria com e-commerce","Loja de moda com Instagram Shop","Curso gravado / EAD"],color:"#3B82F6",b:{l_mql:5,mql_sql:15,sql_opp:30,opp_won:20,onb:70,ado:50,ret:85,exp:15,adv:10,nrr:100,churn:3,payback:12,ltv_cac:3}},
   medium:{label:"Medium Touch",sub:"Venda com ajuda da equipe",desc:"O cliente precisa de um atendente ou vendedor para fechar.",examples:["Auto mecânica / oficina","Pet shop físico com recorrência","Distribuidora regional","Escola técnica / cursos presenciais","Pequena indústria com representantes"],color:"#8B5CF6",b:{l_mql:15,mql_sql:25,sql_opp:40,opp_won:25,onb:80,ado:65,ret:90,exp:25,adv:20,nrr:110,churn:1.5,payback:18,ltv_cac:4}},
   high:{label:"High Touch",sub:"Venda consultiva / relacionamento",desc:"A venda exige visitas, propostas e negociação com múltiplos decisores.",examples:["Média indústria / fornecedor B2B","Distribuidora com contratos anuais","Empresa de reformas / construção","Fornecedor de máquinas e equipamentos","Serviços terceirizados (limpeza, segurança, TI)"],color:"#10B981",b:{l_mql:10,mql_sql:30,sql_opp:50,opp_won:35,onb:90,ado:75,ret:95,exp:35,adv:30,nrr:120,churn:0.5,payback:24,ltv_cac:5}}
 };
 
-const POPUPS = {
-  leads:{title:"Visitantes e Leads",what:"Todo mundo que demonstrou interesse: entrou na loja, visitou o site, pediu orçamento ou foi indicado.",why:"Se poucas pessoas chegam, o problema é atração. Se chegam muitas mas compram poucas, o problema é conversão.",impact:"Sem esse número, é impossível melhorar qualquer etapa. Você está voando no escuro."},
-  mql:{title:"Lead com Potencial Real",what:"Dos que chegaram, quantos têm perfil certo para comprar? Necessidade real, dinheiro e intenção de comprar em breve.",why:"Muitos negócios perdem tempo tentando vender para quem nunca vai comprar.",impact:"Sem qualificação, você gasta energia igual com quem vai comprar e quem só está pesquisando."},
-  sql:{title:"Prontos para Comprar",what:"Dos qualificados, quantos estão prontos para receber uma proposta ou tomar uma decisão?",why:"Revela se seu processo de atendimento está funcionando.",impact:"Quando baixo, geralmente é abordagem errada ou demora no retorno."},
-  opp:{title:"Propostas em Aberto",what:"Quantos orçamentos ou negociações estão abertos agora?",why:"É o termômetro das suas vendas. Poucos orçamentos = vendas fracas nos próximos dias.",impact:"Se esse número cai, o faturamento cai logo em seguida."},
+const POPUPS={
+  leads:{title:"Visitantes e Leads",what:"Todo mundo que demonstrou interesse: entrou na loja, visitou o site, pediu orçamento ou foi indicado.",why:"Se poucas pessoas chegam, o problema é atração. Se chegam muitas mas compram poucas, o problema é conversão.",impact:"Sem esse número, é impossível melhorar qualquer etapa."},
+  mql:{title:"Lead com Potencial Real",what:"Dos que chegaram, quantos têm perfil certo para comprar?",why:"Muitos negócios perdem tempo tentando vender para quem nunca vai comprar.",impact:"Sem qualificação, você gasta energia igual com quem vai comprar e quem só está pesquisando."},
+  sql:{title:"Prontos para Comprar",what:"Dos qualificados, quantos estão prontos para receber uma proposta?",why:"Revela se seu processo de atendimento está funcionando.",impact:"Quando baixo, geralmente é abordagem errada ou demora no retorno."},
+  opp:{title:"Propostas em Aberto",what:"Quantos orçamentos ou negociações estão abertos agora?",why:"É o termômetro das suas vendas.",impact:"Se esse número cai, o faturamento cai logo em seguida."},
   won:{title:"Clientes Novos Conquistados",what:"Quantos clientes novos você conquista por mês?",why:"É o resultado direto de toda a máquina de aquisição.",impact:"Cliente mal escolhido consome energia, pede desconto e sai cedo."},
-  onb:{title:"Clientes que Começaram Bem",what:"De cada 100 clientes novos, quantos realmente começaram a usar como você esperava?",why:"Aqui o cliente decide — sem falar em voz alta — se vai continuar ou abandonar.",impact:"Cliente que não começa bem, não fica. Vira detrator."},
-  ado:{title:"Clientes Ativos e Engajados",what:"Dos seus clientes, quantos estão realmente engajados e percebendo valor?",why:"Uso ativo é o maior sinal de que o cliente vai ficar e recomendar.",impact:"Clientes inativos são os primeiros a ir embora — você só descobre quando já é tarde."},
-  ret:{title:"Clientes que Ficaram",what:"De cada 100 clientes, quantos continuam comprando de você?",why:"Sem retenção, você corre só para manter o que tem — sem crescer.",impact:"Perder 20% dos clientes por ano significa repor todos eles só para não encolher."},
-  exp:{title:"Clientes que Compraram Mais",what:"Dos clientes atuais, quantos compraram algo adicional ou aumentaram o pedido?",why:"Vender mais para quem já é seu cliente custa até 5x menos.",impact:"Sem expansão, você depende 100% de novos clientes para crescer."},
-  adv:{title:"Clientes que Te Indicaram",what:"Quantos clientes, sem que você peça, recomendam seu negócio?",why:"Indicação é o sinal mais forte de valor entregue. E o canal mais barato.",impact:"Negócios de indicação têm custo de aquisição próximo de zero."},
+  onb:{title:"Clientes que Começaram Bem",what:"De cada 100 clientes novos, quantos realmente começaram como você esperava?",why:"Aqui o cliente decide se vai continuar ou abandonar.",impact:"Cliente que não começa bem, não fica."},
+  ado:{title:"Clientes Ativos e Engajados",what:"Dos seus clientes, quantos estão realmente engajados e percebendo valor?",why:"Uso ativo é o maior sinal de que o cliente vai ficar.",impact:"Clientes inativos são os primeiros a ir embora."},
+  ret:{title:"Clientes que Ficaram",what:"De cada 100 clientes, quantos continuam comprando de você?",why:"Sem retenção, você corre só para manter o que tem.",impact:"Perder 20% dos clientes por ano significa repor todos eles só para não encolher."},
+  exp:{title:"Clientes que Compraram Mais",what:"Dos clientes atuais, quantos compraram algo adicional?",why:"Vender mais para quem já é seu cliente custa até 5x menos.",impact:"Sem expansão, você depende 100% de novos clientes para crescer."},
+  adv:{title:"Clientes que Te Indicaram",what:"Quantos clientes recomendam seu negócio sem você pedir?",why:"Indicação é o sinal mais forte de valor entregue.",impact:"Negócios de indicação têm custo de aquisição próximo de zero."},
   ticket:{title:"Quanto Cada Cliente Paga por Ano",what:"Some tudo que um cliente médio paga em 12 meses.",why:"Define o modelo comercial que você pode sustentar.",impact:"Quem não sabe o que cada cliente vale não sabe se está lucrando."},
   ltv:{title:"Valor Total de Um Cliente",what:"Tudo que um cliente paga enquanto permanece com você.",why:"Responde: quanto posso gastar para conquistar um cliente e ainda lucrar?",impact:"Sem saber o LTV, você chuta o custo de aquisição."},
-  cac:{title:"Quanto Custa Conquistar Um Cliente",what:"Tudo gasto para trazer um novo cliente dividido pelos clientes novos do período.",why:"CAC crescendo é o primeiro sinal de que algo está errado.",impact:"CAC alto + cliente que paga pouco = prejuízo por venda."},
-  midia:{title:"Investimento Mensal em Divulgação",what:"Tudo que vai para Google, Instagram, panfletos, patrocínios, feiras.",why:"Permite calcular se os canais pagos estão trazendo retorno real.",impact:"Crescer só por anúncio pago é caro e arriscado."},
+  cac:{title:"Quanto Custa Conquistar Um Cliente",what:"Tudo gasto para trazer um novo cliente dividido pelos clientes novos.",why:"CAC crescendo é o primeiro sinal de que algo está errado.",impact:"CAC alto + cliente que paga pouco = prejuízo por venda."},
+  midia:{title:"Investimento Mensal em Divulgação",what:"Tudo que vai para Google, Instagram, panfletos, patrocínios.",why:"Permite calcular se os canais pagos estão trazendo retorno.",impact:"Crescer só por anúncio pago é caro e arriscado."},
   nrr:{title:"Sua Receita Está Crescendo ou Encolhendo?",what:"Considera clientes que saíram, reduziram E os que compraram mais. Acima de 100% = cresce sozinha.",why:"É o número mais importante do lado direito do funil.",impact:"Acima de 100% = cresce sem novos clientes. Abaixo = perde receita mesmo mantendo todos."},
-  churn:{title:"Quantos Clientes Você Perde Todo Mês",what:"Se tinha 100 clientes e perdeu 5, seu churn é 5%.",why:"O churn é o buraco no balde. Com ele alto, não existe crescimento real.",impact:"5% ao mês = metade da base perdida em 1 ano."},
-  ciclo:{title:"Quanto Tempo Leva Para Fechar Uma Venda",what:"Do primeiro contato até o dinheiro na conta — quantos dias em média?",why:"Ciclo longo = fluxo de caixa imprevisível.",impact:"Reduzir 20% do ciclo aumenta a capacidade do time em até 25%."},
-  equipe_cs:{title:"Time de Pós-Venda / Atendimento",what:"Quantas pessoas cuidam dos clientes depois que eles compram?",why:"A proporção time/clientes define a qualidade do atendimento.",impact:"Time pequeno demais = atendimento reativo. Clientes abandonados saem sem avisar."},
+  churn:{title:"Quantos Clientes Você Perde Todo Mês",what:"Se tinha 100 clientes e perdeu 5, seu churn é 5%.",why:"O churn é o buraco no balde.",impact:"5% ao mês = metade da base perdida em 1 ano."},
+  ciclo:{title:"Quanto Tempo Leva Para Fechar Uma Venda",what:"Do primeiro contato até o dinheiro na conta.",why:"Ciclo longo = fluxo de caixa imprevisível.",impact:"Reduzir 20% do ciclo aumenta a capacidade do time em até 25%."},
+  equipe_cs:{title:"Time de Pós-Venda / Atendimento",what:"Quantas pessoas cuidam dos clientes depois que eles compram?",why:"A proporção time/clientes define a qualidade do atendimento.",impact:"Time pequeno demais = atendimento reativo."},
   clientes_cs:{title:"Quantos Clientes Cada Pessoa Atende",what:"Total de clientes ativos dividido pelo time de pós-venda.",why:"Diz se seu time tem capacidade de atender bem.",impact:"Acima de 150 sem automação = atendimento vira apagador de incêndios."}
 };
 
-const BOWTIE = [
+const BOWTIE=[
   {id:"leads",label:"Visitantes e Leads",short:"LEADS",side:"left",i:0,unit:"pessoas/mês",ph:"Ex: 500"},
   {id:"mql",label:"Leads com Potencial",short:"POTENCIAL",side:"left",i:1,unit:"leads/mês",ph:"Ex: 80"},
   {id:"sql",label:"Prontos para Comprar",short:"PRONTOS",side:"left",i:2,unit:"leads/mês",ph:"Ex: 30"},
@@ -65,7 +64,7 @@ const BOWTIE = [
   {id:"adv",label:"Clientes que indicaram (%)",short:"INDICOU",side:"right",ri:4,unit:"%",ph:"Ex: 5"},
 ];
 
-const BIZF = [
+const BIZF=[
   {id:"ticket",label:"Quanto cada cliente paga por ano (R$)",unit:"R$/ano",ph:"Ex: 3600"},
   {id:"ltv",label:"Valor total de um cliente (R$)",unit:"R$",ph:"Ex: 10800"},
   {id:"cac",label:"Quanto custa conquistar um cliente novo (R$)",unit:"R$",ph:"Ex: 800"},
@@ -77,7 +76,7 @@ const BIZF = [
   {id:"clientes_cs",label:"Clientes por pessoa do atendimento",unit:"clientes/pessoa",ph:"Ex: 50"},
 ];
 
-const BIZ_LAYERS = [
+const BIZ_LAYERS=[
   {id:"revenue",label:"O que cada cliente vale",sub:"Ticket médio e valor de longo prazo",color:"#3B82F6",icon:"◈",fields:["ticket","ltv"]},
   {id:"acquisition",label:"O que você gasta para conquistar",sub:"Custo de aquisição, mídia e ciclo",color:"#F59E0B",icon:"◎",fields:["cac","midia","ciclo"]},
   {id:"retention",label:"O que você faz para manter e crescer",sub:"Crescimento da base, abandono e atendimento",color:"#10B981",icon:"◉",fields:["nrr","churn","equipe_cs","clientes_cs"]},
@@ -94,53 +93,83 @@ const fmtVal=(id,bt)=>{const v=parseFloat(bt[id]);if(isNaN(v)||!bt[id])return"�
 const fmtR=(n)=>n>=1000000?`R$${(n/1000000).toFixed(1)}M`:n>=1000?`R$${(n/1000).toFixed(0)}k`:`R$${Math.round(n)}`;
 const rates=(bt)=>{const r=(a,b)=>a&&b&&parseFloat(b)>0?((parseFloat(a)/parseFloat(b))*100).toFixed(1):null;return{l_mql:r(bt.mql,bt.leads),mql_sql:r(bt.sql,bt.mql),sql_opp:r(bt.opp,bt.sql),opp_won:r(bt.won,bt.opp)};};
 
-// ── PDF GENERATOR (via print nativo — funciona em todos os ambientes) ─────────
-function gerarPDF(cad, M, bt, biz, teaserText) {
-  const r = rates(bt);
-  const conteudo = `
-    <html><head><title>Diagnóstico RevArch</title>
-    <style>
-      body{font-family:Arial,sans-serif;color:#1a1a2e;padding:32px;max-width:700px;margin:0 auto}
-      h1{font-size:22px;margin-bottom:4px}
-      h2{font-size:15px;color:#374151;border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin-top:24px}
-      .badge{display:inline-block;background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600}
-      .sub{color:#6b7280;font-size:13px;margin-bottom:16px}
-      .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-      .card{border:1px solid #e5e7eb;border-radius:8px;padding:12px}
-      .card .lbl{font-size:11px;color:#9ca3af;margin-bottom:4px}
-      .card .val{font-size:20px;font-weight:700;color:#1a1a2e}
-      .card .ref{font-size:11px;color:#d1d5db}
-      .analysis{background:#f9fafb;border-radius:8px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7;color:#374151}
-      .footer{margin-top:32px;font-size:11px;color:#9ca3af;text-align:center;border-top:1px solid #e5e7eb;padding-top:16px}
-      @media print{body{padding:16px}}
-    </style></head><body>
-    <p style="color:#6b7280;font-size:12px;margin-bottom:4px">LA Consultancy + CIAF — Revenue Architecture</p>
-    <h1>${cad.nome}</h1>
-    <p class="sub">${cad.ramo} · ${cad.area} · <span class="badge">${M.label}</span> · ${new Date().toLocaleDateString("pt-BR")}</p>
-    <h2>Métricas Principais</h2>
-    <div class="grid">
-      <div class="card"><div class="lbl">Retenção (GRR)</div><div class="val">${bt.ret?bt.ret+"%":"—"}</div><div class="ref">ref: ${M.b.ret}%</div></div>
-      <div class="card"><div class="lbl">Perda Mensal de Clientes</div><div class="val">${biz.churn?biz.churn+"%":"—"}</div><div class="ref">ref: ${M.b.churn}%</div></div>
-      <div class="card"><div class="lbl">Proposta → Fechado</div><div class="val">${r.opp_won?r.opp_won+"%":"—"}</div><div class="ref">ref: ${M.b.opp_won}%</div></div>
-      <div class="card"><div class="lbl">Ticket Anual</div><div class="val">${biz.ticket?"R$"+parseFloat(biz.ticket).toLocaleString("pt-BR"):"—"}</div><div class="ref"></div></div>
-    </div>
-    <h2>O que encontramos no seu negócio</h2>
-    <div class="analysis">${teaserText.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br/>")}</div>
-    <div class="footer">
-      Diagnóstico inicial gerado pela ferramenta Revenue Architecture — LA Consultancy + CIAF<br/>
-      O relatório completo será apresentado em uma conversa com o especialista.<br/>
-      laconsultancybr@gmail.com · +55 35 9 9989-4181
-    </div>
-    </body></html>
-  `;
-  const win = window.open("","_blank");
-  win.document.write(conteudo);
+// ── PDF via print nativo ──────────────────────────────────────────────────────
+function gerarPDF(cad,M,bt,biz,teaserText){
+  const r=rates(bt);
+  const html=`<html><head><title>Diagnóstico RevArch</title>
+  <style>body{font-family:Arial,sans-serif;color:#1a1a2e;padding:32px;max-width:700px;margin:0 auto}h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;color:#374151;border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin-top:24px}.badge{display:inline-block;background:#ede9fe;color:#5b21b6;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:600}.sub{color:#6b7280;font-size:13px;margin-bottom:16px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.card{border:1px solid #e5e7eb;border-radius:8px;padding:12px}.card .lbl{font-size:11px;color:#9ca3af;margin-bottom:4px}.card .val{font-size:20px;font-weight:700;color:#1a1a2e}.card .ref{font-size:11px;color:#d1d5db}.analysis{background:#f9fafb;border-radius:8px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7;color:#374151}.footer{margin-top:32px;font-size:11px;color:#9ca3af;text-align:center;border-top:1px solid #e5e7eb;padding-top:16px}</style></head>
+  <body>
+  <p style="color:#6b7280;font-size:12px;margin-bottom:4px">LA Consultancy + CIAF — Revenue Architecture</p>
+  <h1>${cad.nome||"Empresário"}</h1>
+  <p class="sub">${cad.ramo||""} · ${cad.area||""} · <span class="badge">${M?.label||""}</span> · ${new Date().toLocaleDateString("pt-BR")}</p>
+  <h2>Métricas Principais</h2>
+  <div class="grid">
+    <div class="card"><div class="lbl">Retenção (GRR)</div><div class="val">${bt.ret?bt.ret+"%":"—"}</div><div class="ref">ref: ${M?.b?.ret||0}%</div></div>
+    <div class="card"><div class="lbl">Perda Mensal de Clientes</div><div class="val">${biz.churn?biz.churn+"%":"—"}</div><div class="ref">ref: ${M?.b?.churn||0}%</div></div>
+    <div class="card"><div class="lbl">Proposta → Fechado</div><div class="val">${r.opp_won?r.opp_won+"%":"—"}</div><div class="ref">ref: ${M?.b?.opp_won||0}%</div></div>
+    <div class="card"><div class="lbl">Ticket Anual</div><div class="val">${biz.ticket?"R$"+parseFloat(biz.ticket).toLocaleString("pt-BR"):"—"}</div><div class="ref"></div></div>
+  </div>
+  <h2>O que encontramos no seu negócio</h2>
+  <div class="analysis">${(teaserText||"").replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br/>")}</div>
+  <div class="footer">Diagnóstico inicial — Revenue Architecture — LA Consultancy + CIAF<br/>O relatório completo será apresentado em uma conversa com o especialista.<br/>${EMAIL_CTT} · +55 35 9 9989-4181</div>
+  </body></html>`;
+  const win=window.open("","_blank");
+  if(!win){alert("Permita pop-ups para baixar o PDF.");return;}
+  win.document.write(html);
   win.document.close();
   win.focus();
-  setTimeout(()=>{ win.print(); }, 500);
+  setTimeout(()=>win.print(),600);
 }
 
-// ── COMPONENTES ───────────────────────────────────────────────────────────────
+// ── AI call via proxy ─────────────────────────────────────────────────────────
+async function callAI(prompt){
+  const system=`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF. Responda sempre em português brasileiro, de forma direta e prática.`;
+  let res;
+  try{
+    res=await fetch("/api/claude",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({system,max_tokens:1500,messages:[{role:"user",content:prompt}]})
+    });
+  }catch(networkErr){
+    throw new Error("Sem conexão com o servidor. Verifique sua internet e tente novamente.");
+  }
+  let data;
+  try{data=await res.json();}
+  catch{throw new Error("Resposta inválida do servidor (código "+res.status+").");}
+  if(!res.ok){
+    const msg=data?.error
+      ?(typeof data.error==="string"?data.error:data.error?.message||JSON.stringify(data.error))
+      :"Erro "+res.status+" no servidor.";
+    throw new Error(msg);
+  }
+  const text=data?.content?.find(c=>c.type==="text")?.text;
+  if(!text)throw new Error("A IA não retornou conteúdo. Tente novamente.");
+  return text;
+}
+
+// ── Sheets + Email via Apps Script ────────────────────────────────────────────
+async function saveToSheets(cad,M,bt,biz,relatorio){
+  const r=rates(bt);
+  const payload={
+    timestamp:new Date().toLocaleString("pt-BR"),
+    nome:cad.nome||"",email:cad.email||"",tel:cad.tel||"",
+    ramo:cad.ramo||"",area:cad.area||"",modelo:M?.label||"",
+    nrr:biz.nrr||"",churn:biz.churn||"",ticket:biz.ticket||"",cac:biz.cac||"",
+    conv_lead_mql:r.l_mql||"",conv_opp_won:r.opp_won||"",
+    ret:bt.ret||"",ado:bt.ado||"",
+    relatorio_completo:relatorio||"",
+    origem:"revenue-arch-v3"
+  };
+  try{
+    await fetch(SHEETS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    return true;
+  }catch{
+    return false; // falha silenciosa — não bloqueia o fluxo
+  }
+}
+
+// ── Componentes ───────────────────────────────────────────────────────────────
 function Popup({field,onClose}){
   const c=POPUPS[field];if(!c)return null;
   return(
@@ -180,8 +209,7 @@ const segClr=(s,bt,mode,activeId,mc,bench)=>{
   if(mode==="metrics"){
     if(s.side==="right")return perfClr(parseFloat(bt[s.id]),bench?.[s.id]);
     if(s.id==="leads")return bt.leads?"#374151":"#1f2937";
-    const prev=PREV[s.id],bk=BKEY[s.id];
-    return perfClr(parseFloat(bt[s.id])&&parseFloat(bt[prev])>0?(parseFloat(bt[s.id])/parseFloat(bt[prev]))*100:null,bench?.[bk]);
+    return perfClr(parseFloat(bt[s.id])&&parseFloat(bt[PREV[s.id]])>0?(parseFloat(bt[s.id])/parseFloat(bt[PREV[s.id]]))*100:null,bench?.[BKEY[s.id]]);
   }
   return"#1f2937";
 };
@@ -193,9 +221,9 @@ function BowtieSVG({bt,activeId,onStage,mode,mc,bench}){
   return(
     <div style={{overflowX:"auto"}}>
       <svg viewBox="0 0 640 160" style={{width:"100%",minWidth:320,display:"block"}}>
-        {left.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=s.i*70+35,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={lPts(s.i)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={lPts(s.i)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
+        {left.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=s.i*70+35,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={lPts(s.i)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={lPts(s.i)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
         <g onClick={()=>onStage?.("won")} style={{cursor:onStage?"pointer":"default"}}><polygon points={wonPts} fill={wonClr()} stroke="#030712" strokeWidth="2.5"/>{activeId==="won"&&<polygon points={wonPts} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={320} y={74} textAnchor="middle" fontSize="7" fontWeight="700" fill="#ffffffaa">FECHADOS</text><text x={320} y={90} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal("won",bt)}</text></g>
-        {right.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=360+s.ri*56+28,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={rPts(s.ri)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={rPts(s.ri)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa" letterSpacing="0.3">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
+        {right.map(s=>{const clr=segClr(s,bt,mode,activeId,mc,bench);const cx=360+s.ri*56+28,isA=activeId===s.id;return(<g key={s.id} onClick={()=>onStage?.(s.id)} style={{cursor:onStage?"pointer":"default"}}><polygon points={rPts(s.ri)} fill={clr} stroke="#030712" strokeWidth="2.5"/>{isA&&<polygon points={rPts(s.ri)} fill="none" stroke={mc} strokeWidth="2" strokeDasharray="4 2"/>}<text x={cx} y={72} textAnchor="middle" fontSize="6.5" fontWeight="700" fill="#ffffffaa">{s.short}</text><text x={cx} y={88} textAnchor="middle" fontSize="10" fontWeight="600" fill="#fff">{fmtVal(s.id,bt)}</text></g>);})}
         <text x={140} y={155} textAnchor="middle" fontSize="8" fill="#374151">← CONQUISTAR CLIENTES →</text>
         <text x={504} y={155} textAnchor="middle" fontSize="8" fill="#374151">← MANTER E FAZER CRESCER →</text>
       </svg>
@@ -207,8 +235,8 @@ function StageCard({stage,bt,onVal,onPrev,onNext,onInfo,mc,bench,isLast}){
   const val=bt[stage.id]||"";
   let bi=null;
   if(stage.id!=="leads"&&bench){
-    if(stage.side==="right"){const v=parseFloat(val),b=bench[stage.id];if(!isNaN(v)&&b){const d=v-b,g=d>=0;bi={your:`${v}%`,benchStr:`${b}%`,good:g,msg:g?`${d.toFixed(0)}pp acima da referência`:`${Math.abs(d).toFixed(0)}pp abaixo da referência`};}}
-    else if(PREV[stage.id]){const v=parseFloat(val),p=parseFloat(bt[PREV[stage.id]]),b=bench[BKEY[stage.id]];if(!isNaN(v)&&!isNaN(p)&&p>0&&b){const rate=v/p*100,d=rate-b,g=d>=0;bi={your:`${rate.toFixed(1)}%`,benchStr:`${b}%`,good:g,msg:g?`${d.toFixed(1)}pp acima da referência`:`${Math.abs(d).toFixed(1)}pp abaixo da referência`};}}
+    if(stage.side==="right"){const v=parseFloat(val),b=bench[stage.id];if(!isNaN(v)&&b){const d=v-b,g=d>=0;bi={your:`${v}%`,benchStr:`${b}%`,good:g,msg:g?`${d.toFixed(0)}pp acima`:`${Math.abs(d).toFixed(0)}pp abaixo`};}}
+    else if(PREV[stage.id]){const v=parseFloat(val),p=parseFloat(bt[PREV[stage.id]]),b=bench[BKEY[stage.id]];if(!isNaN(v)&&!isNaN(p)&&p>0&&b){const rate=v/p*100,d=rate-b,g=d>=0;bi={your:`${rate.toFixed(1)}%`,benchStr:`${b}%`,good:g,msg:g?`${d.toFixed(1)}pp acima`:`${Math.abs(d).toFixed(1)}pp abaixo`};}}
   }
   return(
     <div style={{background:"#111827",border:`1px solid ${mc}44`,borderRadius:16,padding:"1.25rem",marginBottom:12}}>
@@ -297,56 +325,51 @@ function MetricCard({stage,bt,bench,mc,onInfo}){
   );
 }
 
-// ── PROMPTS ──────────────────────────────────────────────────────────────────
 const buildTeaserPrompt=(cad,M,bt,biz)=>{
   const r=rates(bt);const b=M.b;
   return`Você é consultor da LA Consultancy especializado em Revenue Architecture para o varejo brasileiro.
-Você está conversando com ${cad.nome}, ${cad.area} de um negócio de ${cad.ramo}, modelo ${M.label}.
+Empresário: ${cad.nome}, ${cad.area}, ${cad.ramo}, modelo ${M.label}.
 
-OBJETIVO: gerar consciência e FOMO — revelar apenas 40-50% do diagnóstico. Deixe ele querendo mais.
+OBJETIVO: revelar 40-50% do diagnóstico, gerar curiosidade e FOMO. NÃO use termos: NRR, churn, MQL, SQL, CAC.
 
-Dados:
+Dados do negócio:
 - Leads/mês: ${bt.leads||"não informado"} | Clientes novos/mês: ${bt.won||"não informado"}
-- Começando bem: ${bt.onb||"não informado"}% | Ativos: ${bt.ado||"não informado"}% | Ficaram: ${bt.ret||"não informado"}%
-- Compraram mais: ${bt.exp||"não informado"}% | Indicaram: ${bt.adv||"não informado"}%
-- Chegam→potencial: ${r.l_mql||"N/C"}% (ref: ${b.l_mql}%) | Proposta→Fechado: ${r.opp_won||"N/C"}% (ref: ${b.opp_won}%)
-- Ticket/ano: R$${biz.ticket||"N/I"} | CAC: R$${biz.cac||"N/I"} | Perda mensal: ${biz.churn||"N/I"}%
-
-LINGUAGEM: simples, direta, como conversa. Sem jargão. Use dados reais. Se dado falta, mencione que a ausência é um sinal.
-NÃO use: NRR, churn, MQL, SQL, CAC — use linguagem do dia a dia do empresário brasileiro.
+- Clientes que ficam: ${bt.ret||"não informado"}% (ref: ${b.ret}%) | Ativos: ${bt.ado||"não informado"}% (ref: ${b.ado}%)
+- Começaram bem: ${bt.onb||"não informado"}% | Compraram mais: ${bt.exp||"não informado"}% | Indicaram: ${bt.adv||"não informado"}%
+- Chegam→potencial: ${r.l_mql||"não calculado"}% (ref: ${b.l_mql}%) | Proposta→Fechado: ${r.opp_won||"não calculado"}% (ref: ${b.opp_won}%)
+- Ticket/ano: R$${biz.ticket||"não informado"} | Custo p/ conquistar cliente: R$${biz.cac||"não informado"} | Perda mensal: ${biz.churn||"não informado"}%
 
 Responda com estas 3 seções (títulos em negrito):
 
 **O que já conseguimos enxergar no seu negócio**
-2 parágrafos revelando parcialmente. Aponte 1-2 pontos de atenção sem explicar como resolver. Termine com sensação de "tem muito mais aqui".
+2 parágrafos revelando parcialmente. Aponte 1-2 pontos sem explicar como resolver. Deixe a sensação de "tem muito mais aqui".
 
 **O que ainda está escondido nos seus números**
-1 parágrafo curto dizendo que o relatório completo — com gargalos, dinheiro perdido em R$ e plano de 90 dias — está sendo preparado.
+1 parágrafo curto sobre o relatório completo com gargalos em R$ e plano de 90 dias.
 
 **O próximo passo**
-1 frase convidando para a conversa. Tom: próximo, honesto, sem pressão.`;
+1 frase convidando para conversa. Tom: próximo, honesto, sem pressão.`;
 };
 
 const buildFullReportPrompt=(cad,M,bt,biz)=>{
   const r=rates(bt);const b=M.b;
-  return`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.
-Gere um relatório COMPLETO para o consultor.
+  return`Especialista em Revenue Architecture — LA Consultancy + CIAF. Relatório COMPLETO para o consultor.
 
-LEAD: ${cad.nome} | ${cad.ramo} | ${cad.area} | ${M.label} | Email: ${cad.email} | WhatsApp: ${cad.tel}
+LEAD: ${cad.nome} | ${cad.ramo} | ${cad.area} | ${M.label} | ${cad.email} | ${cad.tel}
 BOWTIE: Leads ${bt.leads||"N/A"} | Pot ${bt.mql||"N/A"} | Pron ${bt.sql||"N/A"} | Prop ${bt.opp||"N/A"} | Won ${bt.won||"N/A"}
-Conv: L→P ${r.l_mql||"N/A"}% (b${b.l_mql}%) | M→S ${r.mql_sql||"N/A"}% | S→O ${r.sql_opp||"N/A"}% | O→W ${r.opp_won||"N/A"}% (b${b.opp_won}%)
-Onb ${bt.onb||"N/A"}% | Ado ${bt.ado||"N/A"}% | Ret ${bt.ret||"N/A"}% | Exp ${bt.exp||"N/A"}% | Adv ${bt.adv||"N/A"}%
-Financeiro: Ticket R$${biz.ticket||"N/A"}/ano | LTV R$${biz.ltv||"N/A"} | CAC R$${biz.cac||"N/A"} | NRR ${biz.nrr||"N/A"}% | Churn ${biz.churn||"N/A"}%/mês | Ciclo ${biz.ciclo||"N/A"}d | CS: ${biz.equipe_cs||"N/A"}p/${biz.clientes_cs||"N/A"}cl
+Conv: L→P ${r.l_mql||"N/A"}%(b${b.l_mql}) | O→W ${r.opp_won||"N/A"}%(b${b.opp_won})
+Onb ${bt.onb||"N/A"}%(b${b.onb}) | Ado ${bt.ado||"N/A"}%(b${b.ado}) | Ret ${bt.ret||"N/A"}%(b${b.ret}) | Exp ${bt.exp||"N/A"}%(b${b.exp})
+Ticket R$${biz.ticket||"N/A"}/ano | LTV R$${biz.ltv||"N/A"} | CAC R$${biz.cac||"N/A"} | Churn ${biz.churn||"N/A"}%/mês | Ciclo ${biz.ciclo||"N/A"}d
 
-1. DIAGNÓSTICO EXECUTIVO COMPLETO — estado atual, conexões entre etapas
-2. TOP 3 GARGALOS — descrição, impacto em R$, causa provável, urgência
-3. MOMENTOS CRÍTICOS — onde a experiência do cliente está comprometida
-4. RECEITA DEIXADA NA MESA — cálculo específico em R$
-5. PLANO DE 90 DIAS — semanas 1-4 quick wins, meses 2-3 estruturante, KPIs
-6. PERFIL COMERCIAL — nível de dor, maturidade, urgência, abordagem recomendada`;
+1. DIAGNÓSTICO EXECUTIVO
+2. TOP 3 GARGALOS — impacto em R$, causa, urgência
+3. MOMENTOS CRÍTICOS — onde o cliente abandona
+4. RECEITA DEIXADA NA MESA — valor em R$
+5. PLANO 90 DIAS — semanas 1-4, meses 2-3, KPIs
+6. PERFIL COMERCIAL — dor, maturidade, abordagem recomendada`;
 };
 
-// ── APP PRINCIPAL ─────────────────────────────────────────────────────────────
+// ── APP ───────────────────────────────────────────────────────────────────────
 export default function App(){
   const [view,setView]=useState("model");
   const [model,setModel]=useState(null);
@@ -361,11 +384,9 @@ export default function App(){
   const [bt,setBt]=useState({leads:"",mql:"",sql:"",opp:"",won:"",onb:"",ado:"",ret:"",exp:"",adv:""});
   const [biz,setBiz]=useState({ticket:"",ltv:"",cac:"",midia:"",nrr:"",churn:"",ciclo:"",equipe_cs:"",clientes_cs:""});
   const [teaser,setTeaser]=useState("");
-  const [loadingTeaser,setLoadingTeaser]=useState(false);
-  const [sheetsStatus,setSheetsStatus]=useState("idle");
-  const [emailStatus,setEmailStatus]=useState("idle");
-  const [kb,setKb]=useState("");
-  const [kbStatus,setKbStatus]=useState("idle");
+  const [loadingAI,setLoadingAI]=useState(false);
+  const [aiError,setAiError]=useState("");
+  const [sheetsOk,setSheetsOk]=useState(false);
   const [pdfLoading,setPdfLoading]=useState(false);
 
   const M=model?MODELS[model]:null;
@@ -376,7 +397,7 @@ export default function App(){
   const validateCad=()=>{
     const e={};
     if(!cad.nome.trim())e.nome="Nome obrigatório";
-    if(!cad.email.trim()||!/\S+@\S+\.\S+/.test(cad.email))e.email="Email inválido";
+    if(!/\S+@\S+\.\S+/.test(cad.email))e.email="Email inválido";
     if(!cad.tel.trim())e.tel="WhatsApp obrigatório";
     if(!cad.ramo)e.ramo="Selecione o ramo";
     if(!cad.area)e.area="Selecione sua área";
@@ -384,82 +405,31 @@ export default function App(){
     setCadErr(e);return Object.keys(e).length===0;
   };
 
-  const loadKB=async()=>{
-    if(kb)return kb;
-    setKbStatus("loading");
-    try{
-      const res=await fetch(KB_URL);
-      const txt=await res.text();
-      const clean=txt.replace(/<[^>]*>/g," ").replace(/&nbsp;/g," ").replace(/&amp;/g,"&").replace(/\s{3,}/g,"\n\n").trim().substring(0,12000);
-      setKb(clean);setKbStatus("ok");return clean;
-    }catch{setKbStatus("err");return"";}
-  };
-
-  // ── CHAMADA VIA PROXY /api/claude ─────────────────────────────────────────
-  const callAI=async(prompt,kbContent="")=>{
-    const system=kbContent
-      ?`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.\n\nBASE DE CONHECIMENTO:\n${kbContent}\n---`
-      :`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF.`;
-    const res=await fetch("/api/claude",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-20250514",
-        max_tokens:1500,
-        system,
-        messages:[{role:"user",content:prompt}]
-      })
-    });
-    const data=await res.json();
-    if(data.error)throw new Error(data.error.message);
-    return data.content?.find(c=>c.type==="text")?.text||"";
-  };
-
-  const sendToSheets=async(relatorio)=>{
-    const r=rates(bt);
-    setSheetsStatus("saving");
-    try{
-      await fetch(SHEETS_URL,{
-        method:"POST",mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          timestamp:new Date().toLocaleString("pt-BR"),
-          nome:cad.nome,email:cad.email,tel:cad.tel,
-          ramo:cad.ramo,area:cad.area,modelo:M?.label,
-          nrr:biz.nrr||"",churn:biz.churn||"",ticket:biz.ticket||"",cac:biz.cac||"",
-          conv_lead_mql:r.l_mql||"",conv_opp_won:r.opp_won||"",
-          ret:bt.ret||"",ado:bt.ado||"",
-          relatorio_completo:relatorio,
-          origem:"revenue-arch-v3"
-        })
-      });
-      setSheetsStatus("ok");setEmailStatus("ok");
-    }catch{setSheetsStatus("err");setEmailStatus("err");}
-  };
-
   const fetchAll=async()=>{
-    setLoadingTeaser(true);setTeaser("");
+    setLoadingAI(true);setTeaser("");setAiError("");setSheetsOk(false);
     try{
-      const kbContent=await loadKB();
       const [teaserTxt,fullTxt]=await Promise.all([
-        callAI(buildTeaserPrompt(cad,M,bt,biz),kbContent),
-        callAI(buildFullReportPrompt(cad,M,bt,biz),kbContent)
+        callAI(buildTeaserPrompt(cad,M,bt,biz)),
+        callAI(buildFullReportPrompt(cad,M,bt,biz))
       ]);
       setTeaser(teaserTxt);
-      sendToSheets(fullTxt);
-    }catch(err){setTeaser(`Erro ao gerar análise: ${err.message}`);}
-    setLoadingTeaser(false);
+      const saved=await saveToSheets(cad,M,bt,biz,fullTxt);
+      setSheetsOk(saved);
+    }catch(err){
+      setAiError(err.message||"Erro desconhecido. Tente novamente ou entre em contato pelo WhatsApp.");
+    }
+    setLoadingAI(false);
   };
 
-  const handleDownloadPDF=()=>{
+  const handlePDF=()=>{
     if(!teaser)return;
     setPdfLoading(true);
-    try{ gerarPDF(cad,M,bt,biz,teaser); }
-    catch(e){ alert("Erro ao gerar PDF: "+e.message); }
+    try{gerarPDF(cad,M,bt,biz,teaser);}
+    catch(e){alert("Erro ao gerar PDF: "+e.message);}
     setPdfLoading(false);
   };
 
-  const reset=()=>{setView("model");setModel(null);setStep(1);setActiveIdx(0);setActiveM3(null);setShowBench(false);setCad({nome:"",email:"",tel:"",ramo:"",area:""});setLgpd(false);setCadErr({});setBt({leads:"",mql:"",sql:"",opp:"",won:"",onb:"",ado:"",ret:"",exp:"",adv:""});setBiz({ticket:"",ltv:"",cac:"",midia:"",nrr:"",churn:"",ciclo:"",equipe_cs:"",clientes_cs:""});setTeaser("");setSheetsStatus("idle");setEmailStatus("idle");};
+  const reset=()=>{setView("model");setModel(null);setStep(1);setActiveIdx(0);setActiveM3(null);setShowBench(false);setCad({nome:"",email:"",tel:"",ramo:"",area:""});setLgpd(false);setCadErr({});setBt({leads:"",mql:"",sql:"",opp:"",won:"",onb:"",ado:"",ret:"",exp:"",adv:""});setBiz({ticket:"",ltv:"",cac:"",midia:"",nrr:"",churn:"",ciclo:"",equipe_cs:"",clientes_cs:""});setTeaser("");setAiError("");setSheetsOk(false);};
 
   const inp=(lbl,key,type="text",err)=>(
     <div style={{marginBottom:12}}>
@@ -544,7 +514,7 @@ export default function App(){
                 <div style={{width:20,height:20,borderRadius:6,background:lgpd?mc:"transparent",border:`2px solid ${lgpd?mc:"#374151"}`,flexShrink:0,marginTop:1,display:"flex",alignItems:"center",justifyContent:"center"}}>
                   {lgpd&&<span style={{color:"#fff",fontSize:12,fontWeight:700}}>✓</span>}
                 </div>
-                <span style={{color:"#6b7280",fontSize:12,lineHeight:1.6}}>Concordo com o uso dos meus dados para análise e contato por um especialista, conforme a LGPD. Dados financeiros não são armazenados publicamente.</span>
+                <span style={{color:"#6b7280",fontSize:12,lineHeight:1.6}}>Concordo com o uso dos meus dados para análise e contato por um especialista, conforme a LGPD.</span>
               </label>
               {cadErr.lgpd&&<p style={{color:"#f87171",fontSize:11,margin:"6px 0 0"}}>{cadErr.lgpd}</p>}
             </div>
@@ -566,7 +536,7 @@ export default function App(){
                 </div>
                 <div style={{display:"flex",gap:4,marginBottom:10,flexWrap:"wrap",alignItems:"center"}}>
                   {BOWTIE.map((s,i)=>(
-                    <div key={s.id} onClick={()=>setActiveIdx(i)} style={{width:24,height:6,borderRadius:3,background:bt[s.id]?mc:i===activeIdx?mc+"66":"#1f2937",cursor:"pointer"}} title={s.short}/>
+                    <div key={s.id} onClick={()=>setActiveIdx(i)} style={{width:24,height:6,borderRadius:3,background:bt[s.id]?mc:i===activeIdx?mc+"66":"#1f2937",cursor:"pointer"}}/>
                   ))}
                   <span style={{color:"#4b5563",fontSize:11,marginLeft:4}}>{filledCount}/10</span>
                 </div>
@@ -581,7 +551,7 @@ export default function App(){
                 {curStage&&<StageCard stage={curStage} bt={bt} onVal={(id,v)=>setBt(p=>({...p,[id]:v}))} onPrev={activeIdx>0?()=>setActiveIdx(activeIdx-1):null} onNext={()=>{if(activeIdx<BOWTIE.length-1)setActiveIdx(activeIdx+1);else setShowBench(true);}} onInfo={setPopup} mc={mc} bench={M?.b} isLast={activeIdx===BOWTIE.length-1}/>}
                 {showBench&&filledCount>0&&(
                   <div style={{background:"#111827",border:`1px solid ${mc}33`,borderRadius:16,padding:"1.25rem",marginBottom:12}}>
-                    <div style={{color:"#9ca3af",fontSize:12,marginBottom:4}}>Seu negócio vs. Referência LA Consultancy + CIAF</div>
+                    <div style={{color:"#9ca3af",fontSize:12,marginBottom:8}}>Seu negócio vs. Referência LA Consultancy + CIAF</div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
                       {[{l:"Chegam → Potencial",y:rates(bt).l_mql,b:M.b.l_mql},{l:"Potencial → Pronto",y:rates(bt).mql_sql,b:M.b.mql_sql},{l:"Proposta → Fechado",y:rates(bt).opp_won,b:M.b.opp_won},{l:"Clientes que ficam",y:bt.ret,b:M.b.ret},{l:"Clientes ativos",y:bt.ado,b:M.b.ado},{l:"Indicações",y:bt.adv,b:M.b.adv}].map(r=>{
                         const v=parseFloat(r.y),g=!isNaN(v)&&v>=r.b*0.9;
@@ -617,7 +587,7 @@ export default function App(){
                 </div>
                 <div style={{background:"#1a1200",border:"1px solid #713f12",borderRadius:12,padding:"10px 14px",marginBottom:12,display:"flex",gap:10}}>
                   <span style={{fontSize:16,flexShrink:0}}>🍦</span>
-                  <div><div style={{color:"#fbbf24",fontSize:13,fontWeight:600,marginBottom:2}}>Momentos Críticos</div><p style={{color:"#92400e",fontSize:12,margin:0,lineHeight:1.5}}>Etapas em vermelho são os pontos onde seus clientes estão abandonando o negócio — muitas vezes sem que você perceba.</p></div>
+                  <div><div style={{color:"#fbbf24",fontSize:13,fontWeight:600,marginBottom:2}}>Momentos Críticos</div><p style={{color:"#92400e",fontSize:12,margin:0,lineHeight:1.5}}>Etapas em vermelho são os pontos onde seus clientes estão abandonando o negócio sem você perceber.</p></div>
                 </div>
                 <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1rem",marginBottom:12}}>
                   <div style={{display:"flex",gap:10,fontSize:11,marginBottom:10,flexWrap:"wrap"}}>
@@ -644,7 +614,6 @@ export default function App(){
                   <p style={{color:"#6b7280",fontSize:13,margin:0}}>Uma análise honesta baseada nos seus números.</p>
                 </div>
 
-                {/* Header */}
                 <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1rem 1.25rem",marginBottom:12}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                     <div>
@@ -659,7 +628,6 @@ export default function App(){
                   </div>
                 </div>
 
-                {/* Bowtie */}
                 <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1rem",marginBottom:12}}>
                   <div style={{color:"#9ca3af",fontSize:11,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Mapa do seu funil</div>
                   <div style={{display:"flex",gap:10,fontSize:11,marginBottom:10,flexWrap:"wrap"}}>
@@ -670,7 +638,6 @@ export default function App(){
                   <BowtieSVG bt={bt} activeId={null} onStage={null} mode="metrics" mc={mc} bench={M?.b}/>
                 </div>
 
-                {/* Métricas */}
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
                   {(()=>{
                     const r=rates(bt);
@@ -690,83 +657,67 @@ export default function App(){
                   })()}
                 </div>
 
-                {/* Teaser IA */}
                 <div style={{background:"#0c1117",border:"1px solid #1f2937",borderRadius:16,padding:"1.25rem",marginBottom:12}}>
                   <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:mc}}/>
                     <span style={{color:"#fff",fontWeight:600,fontSize:14}}>O que encontramos</span>
-                    <div style={{marginLeft:"auto",display:"flex",gap:6,flexWrap:"wrap"}}>
-                      {kbStatus==="loading"&&<span style={{background:"#1e3a5f",color:"#60a5fa",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Carregando base...</span>}
-                      {kbStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Base ativa</span>}
-                      {emailStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Relatório enviado</span>}
-                      {sheetsStatus==="ok"&&<span style={{background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Salvo no Sheets</span>}
-                    </div>
+                    {sheetsOk&&<span style={{marginLeft:"auto",background:"#052e16",color:"#34d399",fontSize:10,borderRadius:6,padding:"2px 8px"}}>Salvo ✓</span>}
                   </div>
-                  {loadingTeaser?(
+                  {loadingAI&&(
                     <div style={{display:"flex",alignItems:"center",gap:10,color:"#6b7280",padding:"8px 0"}}>
                       <div style={{width:16,height:16,border:"2px solid #374151",borderTopColor:"#fff",borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
                       <span style={{fontSize:13}}>Analisando seu negócio...</span>
                       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
                     </div>
-                  ):(
+                  )}
+                  {aiError&&(
+                    <div style={{background:"#1a0000",border:"1px solid #991b1b44",borderRadius:10,padding:"12px 14px"}}>
+                      <p style={{color:"#f87171",fontSize:13,fontWeight:600,margin:"0 0 6px"}}>Não foi possível gerar a análise</p>
+                      <p style={{color:"#6b7280",fontSize:12,margin:"0 0 10px",lineHeight:1.5}}>{aiError}</p>
+                      <button onClick={fetchAll} style={{background:"#991b1b",border:"none",borderRadius:8,padding:"8px 14px",color:"#fff",fontSize:12,cursor:"pointer",fontWeight:600}}>Tentar novamente</button>
+                    </div>
+                  )}
+                  {!loadingAI&&!aiError&&teaser&&(
                     <div style={{color:"#d1d5db",fontSize:13,lineHeight:1.8}}>
                       {teaser.split(/(\*\*.*?\*\*)/).map((p,i)=>p.startsWith("**")&&p.endsWith("**")?<strong key={i} style={{color:"#fff",display:"block",marginTop:i>0?14:0,marginBottom:4}}>{p.slice(2,-2)}</strong>:<span key={i}>{p}</span>)}
                     </div>
                   )}
                 </div>
 
-                {/* Download PDF */}
-                {!loadingTeaser&&teaser&&(
-                  <button onClick={handleDownloadPDF} disabled={pdfLoading}
-                    style={{width:"100%",padding:"12px",borderRadius:12,background:"#1e3a5f",border:"1px solid #3b82f644",color:"#93c5fd",fontSize:14,fontWeight:600,cursor:"pointer",marginBottom:10}}>
-                    {pdfLoading?"Gerando PDF...":"⬇ Baixar diagnóstico em PDF"}
-                  </button>
-                )}
-
-                {/* CTA WhatsApp */}
-                {!loadingTeaser&&teaser&&(
+                {!loadingAI&&teaser&&(
                   <>
+                    <button onClick={handlePDF} disabled={pdfLoading} style={{width:"100%",padding:"12px",borderRadius:12,background:"#1e3a5f",border:"1px solid #3b82f644",color:"#93c5fd",fontSize:14,fontWeight:600,cursor:"pointer",marginBottom:10}}>
+                      {pdfLoading?"Gerando...":"⬇ Baixar diagnóstico em PDF"}
+                    </button>
                     <div style={{background:"#0a1a0a",border:"1px solid #14532d",borderRadius:16,padding:"1.25rem",marginBottom:10}}>
                       <p style={{color:"#34d399",fontSize:14,fontWeight:600,margin:"0 0 6px"}}>Quer ver o diagnóstico completo?</p>
-                      <p style={{color:"#6b7280",fontSize:12,margin:"0 0 14px",lineHeight:1.6}}>O relatório completo — com os gargalos detalhados, o dinheiro perdido em R$ e um plano de 90 dias — está pronto para uma conversa sem compromisso.</p>
+                      <p style={{color:"#6b7280",fontSize:12,margin:"0 0 14px",lineHeight:1.6}}>O relatório completo — com gargalos detalhados, o dinheiro perdido em R$ e o plano de 90 dias — está pronto para uma conversa sem compromisso.</p>
                       <a href={`https://wa.me/${WA}?text=Olá! Sou ${encodeURIComponent(cad.nome)}, ${encodeURIComponent(cad.area)} de um negócio de ${encodeURIComponent(cad.ramo)}. Fiz o diagnóstico e gostaria de ver o relatório completo.`}
                         target="_blank" rel="noreferrer"
                         style={{display:"block",width:"100%",padding:"13px",borderRadius:10,background:"#16a34a",color:"#fff",fontSize:14,fontWeight:600,textAlign:"center",textDecoration:"none",boxSizing:"border-box"}}>
                         Quero ver o relatório — falar no WhatsApp →
                       </a>
                     </div>
-
-                    {/* Outros canais */}
                     <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:16,padding:"1.25rem",marginBottom:12}}>
                       <p style={{color:"#9ca3af",fontSize:13,fontWeight:600,margin:"0 0 12px"}}>Ou entre em contato pelo canal que preferir:</p>
                       <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                        <a href={`mailto:${EMAIL_CTT}?subject=Diagnóstico Revenue Architecture — ${encodeURIComponent(cad.nome)}`}
-                          style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
-                          <span style={{fontSize:16}}>✉</span>
-                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Email</div><div style={{color:"#4b5563",fontSize:11}}>{EMAIL_CTT}</div></div>
+                        <a href={`mailto:${EMAIL_CTT}?subject=Diagnóstico Revenue Architecture — ${encodeURIComponent(cad.nome)}`} style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
+                          <span style={{fontSize:16}}>✉</span><div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Email</div><div style={{color:"#4b5563",fontSize:11}}>{EMAIL_CTT}</div></div>
                         </a>
-                        <a href={INSTA} target="_blank" rel="noreferrer"
-                          style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
-                          <span style={{fontSize:16}}>◉</span>
-                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Instagram</div><div style={{color:"#4b5563",fontSize:11}}>@laconsultancybr</div></div>
+                        <a href={INSTA} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
+                          <span style={{fontSize:16}}>◉</span><div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>Instagram</div><div style={{color:"#4b5563",fontSize:11}}>@laconsultancybr</div></div>
                         </a>
-                        <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer"
-                          style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
-                          <span style={{fontSize:16}}>◎</span>
-                          <div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>WhatsApp</div><div style={{color:"#4b5563",fontSize:11}}>+55 35 9 9989-4181</div></div>
+                        <a href={`https://wa.me/${WA}`} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,background:"#0f172a",border:"1px solid #374151",borderRadius:10,padding:"10px 14px",textDecoration:"none"}}>
+                          <span style={{fontSize:16}}>◎</span><div><div style={{color:"#fff",fontSize:13,fontWeight:500}}>WhatsApp</div><div style={{color:"#4b5563",fontSize:11}}>+55 35 9 9989-4181</div></div>
                         </a>
                       </div>
                     </div>
-
                     <div style={{background:"#111827",border:"1px solid #1f2937",borderRadius:12,padding:"12px 14px",marginBottom:12}}>
-                      <p style={{color:"#4b5563",fontSize:12,margin:0,lineHeight:1.6}}>
-                        <span style={{color:"#6b7280",fontWeight:600}}>Onde fica seu diagnóstico completo?</span><br/>
-                        O relatório detalhado foi salvo automaticamente no Google Drive da LA Consultancy e enviado por email para a equipe. Na sua conversa, você recebe uma cópia personalizada com todas as análises e o plano de ação.
-                      </p>
+                      <p style={{color:"#4b5563",fontSize:12,margin:0,lineHeight:1.6}}><span style={{color:"#6b7280",fontWeight:600}}>Onde fica seu diagnóstico completo?</span><br/>O relatório detalhado foi enviado para a equipe da LA Consultancy. Na sua conversa, você recebe uma cópia com todas as análises e o plano de ação.</p>
                     </div>
                   </>
                 )}
-                {!loadingTeaser&&teaser&&<button onClick={reset} style={{width:"100%",padding:"12px",borderRadius:12,background:"#1f2937",border:"none",color:"#9ca3af",fontSize:13,cursor:"pointer"}}>← Novo diagnóstico</button>}
+                {!loadingAI&&(teaser||aiError)&&<button onClick={reset} style={{width:"100%",padding:"12px",borderRadius:12,background:"#1f2937",border:"none",color:"#9ca3af",fontSize:13,cursor:"pointer"}}>← Novo diagnóstico</button>}
               </>
             )}
           </>
