@@ -122,13 +122,16 @@ function gerarPDF(cad,M,bt,biz,teaserText){
 }
 
 // ── AI call via proxy ─────────────────────────────────────────────────────────
+// ── FUNÇÃO 1: substitui callAI ────────────────────────────────────────────────
 async function callAI(prompt){
-  const system=`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy . Responda sempre em português brasileiro, de forma direta e prática.`;
+  const SUPA_URL="https://qxbsltxpawgfptppfyqk.supabase.co";
+  const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4YnNsdHhwYXdnZnB0cHBmeXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNzk2NDcsImV4cCI6MjA5MTY1NTY0N30.rKLkJA--3Jj2Nsvinqctqvy47iBtmjuZfRgktafVpWw";
+  const system=`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF. Responda sempre em português brasileiro, de forma direta e prática.`;
   let res;
   try{
-    res=await fetch("/api/claude",{
+    res=await fetch(`${SUPA_URL}/functions/v1/claude-proxy`,{
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${SUPA_KEY}`},
       body:JSON.stringify({system,max_tokens:1500,messages:[{role:"user",content:prompt}]})
     });
   }catch(networkErr){
@@ -138,14 +141,40 @@ async function callAI(prompt){
   try{data=await res.json();}
   catch{throw new Error("Resposta inválida do servidor (código "+res.status+").");}
   if(!res.ok){
-    const msg=data?.error
-      ?(typeof data.error==="string"?data.error:data.error?.message||JSON.stringify(data.error))
-      :"Erro "+res.status+" no servidor.";
+    const msg=data?.error?(typeof data.error==="string"?data.error:data.error?.message||JSON.stringify(data.error)):"Erro "+res.status+" no servidor.";
     throw new Error(msg);
   }
   const text=data?.content?.find(c=>c.type==="text")?.text;
   if(!text)throw new Error("A IA não retornou conteúdo. Tente novamente.");
   return text;
+}
+
+// ── FUNÇÃO 2: substitui saveToSheets ─────────────────────────────────────────
+async function saveToSheets(cad,M,bt,biz,relatorio){
+  const SUPA_URL="https://qxbsltxpawgfptppfyqk.supabase.co";
+  const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4YnNsdHhwYXdnZnB0cHBmeXFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwNzk2NDcsImV4cCI6MjA5MTY1NTY0N30.rKLkJA--3Jj2Nsvinqctqvy47iBtmjuZfRgktafVpWw";
+  const r=rates(bt);
+  const payload={
+    timestamp:new Date().toLocaleString("pt-BR"),
+    nome:cad.nome||"",email:cad.email||"",tel:cad.tel||"",
+    ramo:cad.ramo||"",area:cad.area||"",modelo:M?.label||"",
+    nrr:biz.nrr||"",churn:biz.churn||"",ticket:biz.ticket||"",cac:biz.cac||"",
+    conv_lead_mql:r.l_mql||"",conv_opp_won:r.opp_won||"",
+    ret:bt.ret||"",ado:bt.ado||"",
+    relatorio_completo:relatorio||"",
+    origem:"revenue-arch-v3"
+  };
+  try{
+    const res=await fetch(`${SUPA_URL}/functions/v1/save-diagnostic`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${SUPA_KEY}`},
+      body:JSON.stringify(payload)
+    });
+    const data=await res.json();
+    return data?.success===true;
+  }catch{
+    return false;
+  }
 }
 
 // ── Sheets + Email via Apps Script ────────────────────────────────────────────
