@@ -123,7 +123,7 @@ function gerarPDF(cad,M,bt,biz,teaserText){
 
 // ── AI call via proxy ─────────────────────────────────────────────────────────
 async function callAI(prompt){
-  const system=`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy + CIAF. Responda sempre em português brasileiro, de forma direta e prática.`;
+  const system=`Você é especialista em Revenue Architecture pela metodologia Winning by Design, adaptada para o varejo brasileiro pela LA Consultancy . Responda sempre em português brasileiro, de forma direta e prática.`;
   let res;
   try{
     res=await fetch("/api/claude",{
